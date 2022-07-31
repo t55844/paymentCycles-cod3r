@@ -15,4 +15,15 @@
 
 .content {
   margin: 3%;
+  flex-grow: 1;
+}
+
+body {
+  font-weight: 500;
+}
+
+@media (max-width: 900px) {
+  .content {
+    width: 55%;
+  }
 }
