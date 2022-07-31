@@ -2,6 +2,10 @@
     font-size: medium;
 }
 
+.menu-item div {
+    display: flex;
+}
+
 .menu-item a,
 .submenu a {
     display: flex;
