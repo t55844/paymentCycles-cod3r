@@ -33,7 +33,12 @@
 
 @media (max-width: 900px) {
     .menu-item {
+        font-size: small;
         margin-top: 10px;
-        line-height: 150%;
+        line-height: 70%;
+    }
+
+    .submenu {
+        padding: 5%;
     }
 }
