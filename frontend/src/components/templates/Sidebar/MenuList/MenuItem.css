@@ -1,0 +1,28 @@
+.menu-item {
+    font-size: medium;
+}
+
+.menu-item a,
+.submenu a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+}
+
+.menu-item {
+    justify-content: flex-start;
+}
+
+.menu-item a {
+    width: 100%;
+}
+
+.menu-item img {
+    width: 11%;
+    padding: 0 10px;
+}
+
+.submenu {
+    padding: 1% 0 2%;
+}

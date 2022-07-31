@@ -1,0 +1,10 @@
+.main-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.main-footer strong {
+    font-size: small;
+    margin: 20px 0;
+}
