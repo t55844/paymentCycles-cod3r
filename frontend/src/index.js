@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from "react-router-dom";
-import { legacy_createStore } from 'redux';
+import { applyMiddleware, legacy_createStore } from 'redux';
 import { Provider } from 'react-redux';
+import promise from 'redux-promise';
 
 import './index.css';
 
 import reducers from './globalState/reducers'
 import App from './App';
 
-const store = legacy_createStore(reducers)
+const store = applyMiddleware(promise)(legacy_createStore)(reducers)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
