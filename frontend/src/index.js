@@ -11,7 +11,8 @@ import './index.css';
 import reducers from './globalState/reducers'
 import App from './App';
 
-const store = applyMiddleware(promise)(legacy_createStore)(reducers)
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const store = applyMiddleware(promise)(legacy_createStore)(reducers, devTools)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

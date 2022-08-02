@@ -1,0 +1,8 @@
+.tabheader {
+    background-color: gray;
+    border-top-right-radius: 18px;
+    border: 2px solid rgba(20, 20, 20, 0.863);
+    padding: 4px;
+    font-size: small;
+    display: inline;
+}

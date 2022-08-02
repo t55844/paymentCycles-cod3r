@@ -6,17 +6,16 @@ import { bindActionCreators } from "redux";
 import { getSummary } from "../../../globalState/dashboard/actionDashboard";
 import ValueBox from "../ValueBox/ValueBox";
 import { useEffect } from "react";
+import ContentHeader from "../ContentHeader";
+import ContentBox from "../ContentBox";
 
 const Dashboard = props => {
     const { credits, debts } = props.summary
     useEffect(() => props.getSummary, [])
     return (
         <div className="service-container">
-            <div className="title-container">
-                <h2 >Dahsboard</h2>
-                <h3 >Version 1.0</h3>
-            </div>
-            <div className="service-content">
+            <ContentHeader title='Dahsboard' subtitle='2.0' />
+            <ContentBox>
                 <ValueBox
                     value={credits}
                     valueDescription='Total de Créditos'
@@ -35,7 +34,7 @@ const Dashboard = props => {
                     backgroundColor='#36678b'
                     icon="https://img.icons8.com/ios-filled/50/000000/receive-change.png"
                 ></ValueBox>
-            </div>
+            </ContentBox>
         </div>
     )
 }
