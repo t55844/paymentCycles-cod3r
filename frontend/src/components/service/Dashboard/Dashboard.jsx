@@ -15,7 +15,7 @@ const Dashboard = props => {
     return (
         <div className="service-container">
             <ContentHeader title='Dahsboard' subtitle='2.0' />
-            <ContentBox>
+            <ContentBox css={`dashboard`} >
                 <ValueBox
                     value={credits}
                     valueDescription='Total de Créditos'

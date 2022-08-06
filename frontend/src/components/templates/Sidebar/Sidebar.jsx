@@ -11,21 +11,21 @@ export default props => {
 
 
     function menuItemClickAction(target) {
-        if (target == 'Dashboard') {
+        if (target === 'Dashboard') {
             return
         }
-        if (menuItemClick == 'none') {
+        if (menuItemClick === 'none') {
             setMenuItemClick('flex')
         } else {
             setMenuItemClick('none')
         }
     }
     function linkActionClick(target) {
-        if (target == 'Dashboard') {
+        if (target === 'Dashboard') {
             setLinkDashboard('#154076')
             setLinkCadastro('#344A86')
         }
-        if (target == 'Cadastro') {
+        if (target === 'Cadastro') {
             setLinkCadastro('#154076')
             setLinkDashboard('#344A86')
         }

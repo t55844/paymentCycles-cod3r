@@ -9,7 +9,7 @@ export default props => {
     return (
         <div className="service-container">
             <ContentHeader title='PaymentCycles' subtitle='Cadastro' />
-            <ContentBox>
+            <ContentBox css={`paymentcycles`}>
                 <Tab />
             </ContentBox>
         </div>

@@ -25,6 +25,13 @@
 .service-content {
     display: flex;
     justify-content: space-around;
+}
+
+.dashboard {
+    height: 60%;
+}
+
+.paymentcycles {
     height: 100%;
 }
 
