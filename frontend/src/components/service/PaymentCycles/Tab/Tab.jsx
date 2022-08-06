@@ -6,6 +6,7 @@ import './Tab.css'
 import TabHeader from "../../../templates/tabs/TabHeader/TabHeader";
 import TabContent from "../../../templates/tabs/TabContent/TabContent";
 import { showTab } from "../../../../globalState/tab/actionTab";
+import If from "../../../helpHandlers/If";
 
 
 const Tab = props => {
@@ -31,21 +32,21 @@ const Tab = props => {
         if (target === 'Excluir') setTabSelected(<TabContent>Excluir</TabContent>)
     }
 
-    useEffect(() => { props.showTab('List', 'Incluir') }, [])
 
     useEffect(() => {
         const target = tabTarget
         tabHeaderSelected(target)
         tabContentSelected(target)
     }, [tabTarget])
+    useEffect(() => { props.showTab('Lista', 'Incluir') }, [])
 
     return (
         <div className="tab-container">
             <ul className="tabs-headers">
-                <TabHeader cssActive={lista} title='Lista' tabTarget={setTabTarget} />
-                <TabHeader cssActive={incluir} title='Incluir' tabTarget={setTabTarget} />
-                <TabHeader cssActive={alterar} title='Alterar' tabTarget={setTabTarget} />
-                <TabHeader cssActive={excluir} title='Excluir' tabTarget={setTabTarget} />
+                <If test={props.tabsShowed['Lista']}><TabHeader cssActive={lista} title='Lista' tabTarget={setTabTarget} /></If>
+                <If test={props.tabsShowed['Incluir']}><TabHeader cssActive={incluir} title='Incluir' tabTarget={setTabTarget} /></If>
+                <If test={props.tabsShowed['Alterar']}><TabHeader cssActive={alterar} title='Alterar' tabTarget={setTabTarget} /></If>
+                <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={setTabTarget} /></If>
             </ul>
             {tabSelected}
         </div>
