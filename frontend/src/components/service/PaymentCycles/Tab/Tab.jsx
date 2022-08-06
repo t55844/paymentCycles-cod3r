@@ -7,11 +7,12 @@ import TabHeader from "../../../templates/tabs/TabHeader/TabHeader";
 import TabContent from "../../../templates/tabs/TabContent/TabContent";
 import { showTab } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
+import List from "../List/List";
 
 
 const Tab = props => {
     const [tabTarget, setTabTarget] = useState('Lista')
-    const [tabSelected, setTabSelected] = useState(<TabContent>Lista</TabContent>)
+    const [tabSelected, setTabSelected] = useState(<TabContent><List /></TabContent>)
 
     const [lista, setLista] = useState('')
     const [incluir, setIncluir] = useState('')
@@ -26,7 +27,7 @@ const Tab = props => {
     }
 
     function tabContentSelected(target) {
-        if (target === 'Lista') setTabSelected(<TabContent>Lista</TabContent>)
+        if (target === 'Lista') setTabSelected(<TabContent><List /></TabContent>)
         if (target === 'Incluir') setTabSelected(<TabContent>Incluir</TabContent>)
         if (target === 'Alterar') setTabSelected(<TabContent>Alterar</TabContent>)
         if (target === 'Excluir') setTabSelected(<TabContent>Excluir</TabContent>)
@@ -38,7 +39,7 @@ const Tab = props => {
         tabHeaderSelected(target)
         tabContentSelected(target)
     }, [tabTarget])
-    useEffect(() => { props.showTab('Lista', 'Incluir') }, [])
+    useEffect(() => { props.showTab('Lista', 'Incluir',) }, [])
 
     return (
         <div className="tab-container">
