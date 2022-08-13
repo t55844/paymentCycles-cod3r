@@ -1,0 +1,14 @@
+.tabheader {
+    background-color: #56b6dd;
+    border-top-right-radius: 18px;
+    border: 2px solid #395caa;
+    padding: 4px;
+    font-size: small;
+    display: inline;
+    opacity: 0.8;
+}
+
+.tabheader:hover {
+    opacity: 1;
+    cursor: grab;
+}

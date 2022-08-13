@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import './Header.css'
 
@@ -29,11 +30,13 @@ export default props => {
     return (
         <div className="header-container">
             <header className={`${mainHeader}`}>
-                <a href="#" className="logo">
-                    <img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/64/000000/external-cash-bill-and-payment-method-xnimrodx-lineal-xnimrodx-3.png" />
-                    <span className={`logo-text `} style={{ display: `${visibleElement}` }}><strong>My</strong> Money</span>
-                    <span className={`logo-text `} style={{ display: `${hideElement}` }}><strong>My</strong> M</span>
-                </a>
+                <div className="logo">
+                    <Link to='/'>
+                        <img src="https://img.icons8.com/external-xnimrodx-lineal-xnimrodx/64/000000/external-cash-bill-and-payment-method-xnimrodx-lineal-xnimrodx-3.png" />
+                        <span className={`logo-text `} style={{ display: `${visibleElement}` }}><strong>My</strong> Money</span>
+                        <span className={`logo-text `} style={{ display: `${hideElement}` }}><strong>My</strong> M</span>
+                    </Link>
+                </div>
             </header>
             <button
                 className={`toggle`}

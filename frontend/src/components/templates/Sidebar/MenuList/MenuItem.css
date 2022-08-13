@@ -2,6 +2,10 @@
     font-size: medium;
 }
 
+.menu-item div {
+    display: flex;
+}
+
 .menu-item a,
 .submenu a {
     display: flex;
@@ -25,4 +29,16 @@
 
 .submenu {
     padding: 1% 0 2%;
+}
+
+@media (max-width: 900px) {
+    .menu-item {
+        font-size: small;
+        margin-top: 10px;
+        line-height: 70%;
+    }
+
+    .submenu {
+        padding: 5%;
+    }
 }

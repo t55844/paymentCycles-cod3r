@@ -1,0 +1,60 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    background-image: linear-gradient(to bottom right, #56b6dd, #2e54a7);
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.list-title {
+    margin: 16px;
+    font-size: x-large;
+    border-bottom: 4px solid #2e54a7;
+}
+
+.table td,
+.table th {
+    width: 20%;
+    text-align: center;
+}
+
+.table thead {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 99.5%;
+    margin: 4px 0px;
+    border: 3px solid #395caa;
+    height: 30px;
+    background-color: #2e54a7;
+}
+
+.table tbody tr {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 0px 8px 0px;
+    border: 3px ridge #2e54a7;
+    height: 20px;
+    background-color: #2e54a7;
+}
+
+@media (max-width: 900px) {
+    .list-title {
+        font-size: medium;
+    }
+
+    .table tbody tr {
+        font-size: medium;
+    }
+
+    .table thead {
+        font-size: medium;
+    }
+}
