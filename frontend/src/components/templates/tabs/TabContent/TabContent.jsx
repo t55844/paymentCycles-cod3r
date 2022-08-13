@@ -4,6 +4,6 @@ import './TabContent.css'
 
 export default props => {
     return (
-        <div className="tabcontent">{props.children}</div>
+        <div className="tabcontent" style={{ display: `${props.css}` }}>{props.children}</div>
     )
 }

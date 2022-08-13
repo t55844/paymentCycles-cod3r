@@ -1,7 +1,7 @@
 .tabheader {
-    background-color: gray;
+    background-color: #56b6dd;
     border-top-right-radius: 18px;
-    border: 2px solid rgba(20, 20, 20, 0.863);
+    border: 2px solid #395caa;
     padding: 4px;
     font-size: small;
     display: inline;

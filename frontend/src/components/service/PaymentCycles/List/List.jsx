@@ -20,22 +20,28 @@ const List = props => {
         ))
     }
     return (
-        <table className="table">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                </tr>
-                <tr>
-                    <th>Mes</th>
-                </tr>
-                <tr>
-                    <th>Ano</th>
-                </tr>
-            </thead>
-            <tbody>
-                {renderRows()}
-            </tbody>
-        </table>
+        <div className="list-container">
+            <h2 className="list-title">
+                Lista de Ciclos de pagamento
+            </h2>
+            <table className="table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                    </tr>
+                    <tr>
+                        <th>Mes</th>
+                    </tr>
+                    <tr>
+                        <th>Ano</th>
+                    </tr>
+
+                </thead>
+                <tbody>
+                    {renderRows()}
+                </tbody>
+            </table>
+        </div>
     )
 }
 
