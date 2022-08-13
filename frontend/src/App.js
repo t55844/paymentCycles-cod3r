@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './App.css';
 import { Route, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+
 
 import Footer from './components/templates/Footer/Footer';
 import Header from './components/templates/Header/Header';
@@ -28,6 +30,9 @@ function App() {
         </div>
       </div>
       <Footer />
+      <ToastContainer
+        autoClose={5000}
+        pauseOnHover />
     </div>
   );
 }
