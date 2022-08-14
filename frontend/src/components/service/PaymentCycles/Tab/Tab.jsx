@@ -14,7 +14,6 @@ import { postState } from "../../../../globalState/fetched/actionFetched";
 
 
 const Tab = props => {
-    const [tabTarget, setTabTarget] = useState('')
 
     const [lista, setLista] = useState('')
     const [incluir, setIncluir] = useState('')
@@ -22,39 +21,55 @@ const Tab = props => {
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
 
-    useEffect(() => {
-        const target = tabTarget
-        tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
+    function tabTarget(target) {
         props.setTabOnNow(target)
-    }, [tabTarget])
+        tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
+    }
+
+    useEffect(() => {
+        const target = props.tabTarget
+        tabTarget(target)
+    }, [props.tabTarget])
 
     useEffect(() => {
         if (props.post === 'success') {
-            tabHeaderSelected('Listar', setLista, setIncluir, setAlterar, setExcluir)
-            setTabTarget('Listar')
+            props.showTab('Listar', 'Incluir',)
+            tabTarget('Listar')
         }
     }, [props.post])
 
     useEffect(() => {
         props.showTab('Listar', 'Incluir',)
-        tabHeaderSelected('Listar', setLista, setIncluir, setAlterar, setExcluir)
-        setTabTarget('Listar')
+        props.setTabOnNow('Listar')
     }, [])
-
-
-
     return (
         <div className="tab-container">
             <ul className="tabs-headers">
-                <If test={props.tabsShowed['Listar']}><TabHeader cssActive={lista} title='Listar' tabTarget={setTabTarget} /></If>
-                <If test={props.tabsShowed['Incluir']}><TabHeader cssActive={incluir} title='Incluir' tabTarget={setTabTarget} /></If>
-                <If test={props.tabsShowed['Alterar']}><TabHeader cssActive={alterar} title='Alterar' tabTarget={setTabTarget} /></If>
-                <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={setTabTarget} /></If>
+                <If test={props.tabsShowed['Listar']}><TabHeader cssActive={lista} title='Listar' tabTarget={tabTarget} /></If>
+                <If test={props.tabsShowed['Incluir']}><TabHeader cssActive={incluir} title='Incluir' tabTarget={tabTarget} /></If>
+                <If test={props.tabsShowed['Alterar']}><TabHeader cssActive={alterar} title='Alterar' tabTarget={tabTarget} /></If>
+                <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={tabTarget} /></If>
             </ul>
-            <TabContent css={props.tabTarget === 'Listar' ? "" : 'none'}><List /></TabContent>
-            <TabContent css={props.tabTarget === 'Incluir' ? "" : 'none'}><Form onSubmit={postToPaymentCycles} /></TabContent>
-            <TabContent css={props.tabTarget === 'Alterar' ? "" : 'none'}>Alterar</TabContent>
-            <TabContent css={props.tabTarget === 'Excluir' ? "" : 'none'}>Excluir</TabContent>
+            <If test={props.tabsShowed['Listar']}>
+                <TabContent css={props.tabTarget === 'Listar' ? "" : 'none'}>
+                    <List />
+                </TabContent>
+            </If>
+            <If test={props.tabsShowed['Incluir']}>
+                <TabContent css={props.tabTarget === 'Incluir' ? "" : 'none'}>
+                    <Form cycle={''} onSubmit={postToPaymentCycles} />
+                </TabContent>
+            </If>
+            <If test={props.tabsShowed['Alterar']}>
+                <TabContent css={props.tabTarget === 'Alterar' ? "" : 'none'}>
+                    Alterar
+                </TabContent>
+            </If>
+            <If test={props.tabsShowed['Excluir']}>
+                <TabContent css={props.tabTarget === 'Excluir' ? "" : 'none'}>
+                    <Form cycle={props.cycleToExclude} />
+                </TabContent>
+            </If>
         </div>
     )
 }
@@ -62,10 +77,12 @@ const Tab = props => {
 const mapStateToProps = state => ({
     tabsShowed: state.tab.tabsShowed,
     tabTarget: state.tab.tabTarget,
-    post: state.fetched.post
+    post: state.fetched.post,
+    cycleToExclude: state.paymentCycles.cycleToExclude
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, postState }, dispatch)
+
 
 export default connect(
     mapStateToProps,

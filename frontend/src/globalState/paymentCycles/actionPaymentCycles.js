@@ -8,3 +8,10 @@ export async function getList() {
         payload: data
     }
 }
+
+export function setCycleToExclude(cycle) {
+    return {
+        type: 'PAYMENT_CYCLES_EXCLUDE',
+        payload: cycle
+    }
+}

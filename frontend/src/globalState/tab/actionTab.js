@@ -15,9 +15,10 @@ export function setTabOnNow(tabTarget) {
             payload: tabTarget
         }
     } else {
+        const menssage = `setTabOnNow deu erro, payload:${tabTarget}`
         return {
-            type: 'ERRO',
-            payload: `setTabOnNow deu erro payload:${tabTarget}`
+            type: 'ERROR_TAB_ACTIONS',
+            payload: menssage
         }
     }
 }

@@ -2,12 +2,25 @@ import React from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
+import { bindActionCreators } from "redux";
+import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 
 
 import './Form.css'
 
 const Form = props => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
+    const preloadedValues = props.cycle ? {
+        nome: props.cycle.name,
+        mes: props.cycle.month,
+        ano: props.cycle.year,
+        creditoNome: props.cycle.credits[0].name,
+        creditoValor: props.cycle.credits[0].value,
+        debitoNome: props.cycle.debts[0].name,
+        debitoValor: props.cycle.debts[0].value,
+    } : ''
+    const { register, handleSubmit, reset, formState: { errors } } = useForm(
+        props.cycle ? { defaultValues: preloadedValues } : ''
+    )
     useEffect(() => {
         if (props.post === 'success') {
             reset()
@@ -66,11 +79,24 @@ const Form = props => {
                 </div>
 
             </div>
-            <input className="form-button" type="submit" />
+            <div className="button-container">
+                <input className="form-button" type="submit" />
+                <button className="form-button" type="button"
+                    onClick={() => {
+                        props.setTabOnNow('Listar')
+                        props.showTab('Listar', 'Incluir',)
+                    }}
+                >cancelar</button>
+            </div>
         </form>
     );
 }
 
 const mapStateToProps = state => ({ post: state.fetched.post })
 
-export default connect(mapStateToProps)(Form)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow }, dispatch)
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Form)

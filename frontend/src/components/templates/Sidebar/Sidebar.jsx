@@ -12,6 +12,7 @@ export default props => {
 
     function menuItemClickAction(target) {
         if (target === 'Dashboard') {
+            setMenuItemClick('none')
             return
         }
         if (menuItemClick === 'none') {

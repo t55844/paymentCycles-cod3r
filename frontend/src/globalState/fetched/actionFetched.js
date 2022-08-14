@@ -6,9 +6,10 @@ export function postState(state) {
             payload: state
         }
     } else {
+        const menssage = `erro no postState: ${state}`
         return {
-            type: 'ERRO',
-            payload: `erro no postState: ${state}`
+            type: 'ERRO_FETCHED_POST',
+            payload: menssage
         }
     }
 }

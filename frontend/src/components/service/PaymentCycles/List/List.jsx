@@ -3,9 +3,15 @@ import React, { useEffect } from "react";
 import './List.css'
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
-import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { getList, setCycleToExclude } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import Button from "../../../templates/Button/Button";
+import { excludeCycle } from "./functionsList";
+import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
+import { postState } from "../../../../globalState/fetched/actionFetched";
 
 const List = props => {
+    const actionExclude = excludeCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude, props.postState)
+
     useEffect(() => {
         props.getList()
     }, [])
@@ -16,6 +22,9 @@ const List = props => {
                 <td>{cycle.name}</td>
                 <td>{cycle.month}</td>
                 <td>{cycle.year}</td>
+                <td>
+                    <Button name='Excluir' css='#a62c2b' target={cycle} onClickAction={actionExclude} />
+                </td>
             </tr>
         ))
     }
@@ -35,7 +44,9 @@ const List = props => {
                     <tr>
                         <th>Ano</th>
                     </tr>
-
+                    <tr>
+                        <th>Excluir</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {renderRows()}
@@ -46,7 +57,8 @@ const List = props => {
 }
 
 const mapStateToProps = state => ({ list: state.paymentCycles.list })
-const mapDispatchToProps = dispatch => bindActionCreators({ getList }, dispatch)
+
+const mapDispatchToProps = dispatch => bindActionCreators({ getList, showTab, setTabOnNow, setCycleToExclude, postState }, dispatch)
 
 export default connect(
     mapStateToProps,

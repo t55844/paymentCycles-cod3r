@@ -1,16 +1,11 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toastCheack } from '../../../helpHandlers/toastCheck';
 
 function checkFeatch(response, postState) {
     if (response.name) {
-        toast.success('Cadastrado com sucesso !', {
-            position: toast.POSITION.TOP_RIGHT
-        })
+        toastCheack('success', 'Cadastrado com sucesso !')
         postState('success')
     } else {
-        toast.error(`Nao foi possivel cadastrar por causa do: ${response.mensage}`, {
-            position: toast.POSITION.TOP_RIGHT
-        })
+        toastCheack('failed', `Nao foi possivel cadastrar por causa do: ${response.mensage}`)
         postState('failed')
     }
 }
@@ -40,10 +35,7 @@ export const createOnDatabase = (postState) => (data) => {
     })
         .then(res => res.json())
         .then(res => checkFeatch(res, postState))
-        .catch(error =>
-            toast.error(error.forEach(error => `Nao foi possivel cadastrar por que: ${error}`), {
-                position: toast.POSITION.TOP_RIGHT
-            }))
+        .catch(error => toastCheack('failed', `Nao foi possivel cadastrar por que: ${error}`))
 
 }
 
