@@ -25,7 +25,7 @@ export const deleteCycle = deletedState => (target) => {
         .then(res => res.json())
         .then(res => checkDeleted(res, deletedState))
         .catch(error =>
-            toast.error(error.forEach(error => `Nao foi possivel cadastrar por que: ${error}`), {
+            toast.error(error.forEach(error => `Nao foi possivel deletar erro: ${error}`), {
                 position: toast.POSITION.TOP_RIGHT
             }))
 }

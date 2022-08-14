@@ -9,8 +9,9 @@ import { showTab, setTabOnNow } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 import List from "../List/List";
 import Form from "../Form/Form"
-import { createOnDatabase, tabHeaderSelected } from "./functionsTab";
-import { postState } from "../../../../globalState/fetched/actionFetched";
+import { createOnDatabase, tabHeaderSelected, updateOnDatabase } from "./functionsTab";
+import { deletedState, postState } from "../../../../globalState/fetched/actionFetched";
+import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 
 
 const Tab = props => {
@@ -20,6 +21,7 @@ const Tab = props => {
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
+    const patchToPaymentCycles = updateOnDatabase()
 
     function tabTarget(target) {
         props.setTabOnNow(target)
@@ -37,6 +39,14 @@ const Tab = props => {
             tabTarget('Listar')
         }
     }, [props.post])
+
+    useEffect(() => {
+        if (props.deleted === 'success') {
+            tabTarget('Listar')
+            props.getList()
+            props.deletedState('failed')
+        }
+    }, [props.deleted])
 
     useEffect(() => {
         props.showTab('Listar', 'Incluir',)
@@ -62,12 +72,11 @@ const Tab = props => {
             </If>
             <If test={props.tabsShowed['Alterar']}>
                 <TabContent css={props.tabTarget === 'Alterar' ? "" : 'none'}>
-                    Alterar
+                    <Form cycle={props.cycleToExclude} onSubmit={patchToPaymentCycles} />
                 </TabContent>
             </If>
             <If test={props.tabsShowed['Excluir']}>
                 <TabContent css={props.tabTarget === 'Excluir' ? "" : 'none'}>
-                    <Form cycle={props.cycleToExclude} />
                 </TabContent>
             </If>
         </div>
@@ -78,10 +87,11 @@ const mapStateToProps = state => ({
     tabsShowed: state.tab.tabsShowed,
     tabTarget: state.tab.tabTarget,
     post: state.fetched.post,
+    deleted: state.fetched.deleted,
     cycleToExclude: state.paymentCycles.cycleToExclude
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, postState }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, getList }, dispatch)
 
 
 export default connect(

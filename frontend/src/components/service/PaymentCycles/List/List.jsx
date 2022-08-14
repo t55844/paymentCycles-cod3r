@@ -14,7 +14,6 @@ const List = props => {
     const actionDelete = deleteCycle(props.deletedState)
     const actionUpdate = updateCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude)
     useEffect(() => {
-        console.log('rendering  List')
         props.getList()
     }, [])
 

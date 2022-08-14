@@ -38,6 +38,24 @@ export const createOnDatabase = (postState) => (data) => {
         .catch(error => toastCheack('failed', `Nao foi possivel cadastrar por que: ${error}`))
 
 }
+export const updateOnDatabase = () => (data) => {
+    const body = bodyPaymentCyclesContructor(data)
+    const id = data._id ? data._id : ''
+    console.log(id)
+    console.log(data)
+
+    fetch(`http://localhost:3003/api/paymentCycle/${id}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(error => toastCheack('failed', `Nao foi possivel atualizar por que: ${error}`))
+
+}
 
 
 export function tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir) {

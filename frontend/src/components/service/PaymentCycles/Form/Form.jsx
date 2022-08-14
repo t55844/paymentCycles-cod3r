@@ -19,6 +19,7 @@ const Form = props => {
 
     }
     const preloadedValues = props.cycle ? {
+        _id: props.cycle._id,
         nome: props.cycle.name,
         mes: props.cycle.month,
         ano: props.cycle.year,
