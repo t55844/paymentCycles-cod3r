@@ -3,12 +3,21 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
+import { postState } from "../../../../globalState/fetched/actionFetched";
+import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 
 
 import './Form.css'
 
 const Form = props => {
+    function resetForm() {
+        props.getList()
+        reset()
+        props.setTabOnNow('Listar')
+        props.postState('failed')
+
+    }
     const preloadedValues = props.cycle ? {
         nome: props.cycle.name,
         mes: props.cycle.month,
@@ -23,7 +32,7 @@ const Form = props => {
     )
     useEffect(() => {
         if (props.post === 'success') {
-            reset()
+            resetForm()
         }
     }, [props.post])
     function onSubmit(data) {
@@ -94,7 +103,7 @@ const Form = props => {
 
 const mapStateToProps = state => ({ post: state.fetched.post })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState }, dispatch)
 
 export default connect(
     mapStateToProps,

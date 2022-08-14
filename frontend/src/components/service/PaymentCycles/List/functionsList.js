@@ -2,32 +2,28 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
-
-export const excludeCycle = (showTab, setTabOnNow, setCycleToExclude, postState) => (cycle) => {
-    setCycleToExclude(cycle)
-    setTabOnNow('Listar')
-    showTab('Listar', 'Incluir')
-    deleteCycle(cycle, postState)
-}
-export const alterarCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
+export const updateCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
     setCycleToExclude(cycle)
     setTabOnNow('Alterar')
     showTab('Alterar')
 
 }
 
-function checkDeleted(res) {
+function checkDeleted(res, deletedState) {
     if (res.deletedCount > 0) {
         toastCheack('success', 'O ciclo foi deletado com sucesso')
+        deletedState('success')
     } else {
         toastCheack('failed', 'Nao foi possivel deletar o ciclo')
+        deletedState('failed')
+
     }
 }
 
-function deleteCycle(target) {
+export const deleteCycle = deletedState => (target) => {
     fetch(`http://localhost:3003/api/paymentCycle/${target._id}`, { method: 'DELETE', })
         .then(res => res.json())
-        .then(res => checkDeleted(res))
+        .then(res => checkDeleted(res, deletedState))
         .catch(error =>
             toast.error(error.forEach(error => `Nao foi possivel cadastrar por que: ${error}`), {
                 position: toast.POSITION.TOP_RIGHT

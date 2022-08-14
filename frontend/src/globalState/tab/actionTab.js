@@ -8,7 +8,7 @@ export function showTab(...tabsTarget) {
 }
 
 export function setTabOnNow(tabTarget) {
-    const tabs = ['Listar', 'Incluir', 'Adicionar', 'Excluir']
+    const tabs = ['Listar', 'Incluir', 'Alterar', 'Excluir']
     if (tabs.includes(tabTarget)) {
         return {
             type: 'TAB_ON_NOW',
