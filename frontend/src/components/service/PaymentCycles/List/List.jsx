@@ -5,14 +5,16 @@ import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
 import { getList, setCycleToExclude } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import Button from "../../../templates/Button/Button";
-import { excludeCycle } from "./functionsList";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
-import { postState } from "../../../../globalState/fetched/actionFetched";
+import { deletedState, postState } from "../../../../globalState/fetched/actionFetched";
+import { deleteCycle, updateCycle } from './functionsList'
 
 const List = props => {
-    const actionExclude = excludeCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude, props.postState)
 
+    const actionDelete = deleteCycle(props.deletedState)
+    const actionUpdate = updateCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude)
     useEffect(() => {
+        console.log('rendering  List')
         props.getList()
     }, [])
 
@@ -23,11 +25,14 @@ const List = props => {
                 <td>{cycle.month}</td>
                 <td>{cycle.year}</td>
                 <td>
-                    <Button name='Excluir' css='#a62c2b' target={cycle} onClickAction={actionExclude} />
+                    <Button name='Excluir' css='#a62c2b' target={cycle} onClickAction={actionDelete} />
+                    <Button name='Alterar' css='#00b7d8' target={cycle} onClickAction={actionUpdate} />
                 </td>
+
             </tr>
         ))
     }
+
     return (
         <div className="list-container">
             <h2 className="list-title">
@@ -45,7 +50,7 @@ const List = props => {
                         <th>Ano</th>
                     </tr>
                     <tr>
-                        <th>Excluir</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +63,7 @@ const List = props => {
 
 const mapStateToProps = state => ({ list: state.paymentCycles.list })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ getList, showTab, setTabOnNow, setCycleToExclude, postState }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, getList, setTabOnNow, setCycleToExclude, postState, showTab, }, dispatch)
 
 export default connect(
     mapStateToProps,
