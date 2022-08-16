@@ -10,7 +10,7 @@ import If from "../../../helpHandlers/If";
 import List from "../List/List";
 import Form from "../Form/Form"
 import { createOnDatabase, tabHeaderSelected, updateOnDatabase } from "./functionsTab";
-import { deletedState, postState } from "../../../../globalState/fetched/actionFetched";
+import { deletedState, patchState, postState } from "../../../../globalState/fetched/actionFetched";
 import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 
 
@@ -21,7 +21,7 @@ const Tab = props => {
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase()
+    const patchToPaymentCycles = updateOnDatabase(props.patchState)
 
     function tabTarget(target) {
         props.setTabOnNow(target)
@@ -33,6 +33,14 @@ const Tab = props => {
         tabTarget(target)
     }, [props.tabTarget])
 
+    useEffect(() => {
+        if (props.patch === 'success') {
+            props.showTab('Listar', 'Incluir',)
+            tabTarget('Listar')
+            props.getList()
+            props.patchState('failed')
+        }
+    }, [props.patch])
     useEffect(() => {
         if (props.post === 'success') {
             props.showTab('Listar', 'Incluir',)
@@ -88,11 +96,11 @@ const mapStateToProps = state => ({
     tabTarget: state.tab.tabTarget,
     post: state.fetched.post,
     deleted: state.fetched.deleted,
+    patch: state.fetched.patch,
     cycleToExclude: state.paymentCycles.cycleToExclude
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, getList }, dispatch)
-
+const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList }, dispatch)
 
 export default connect(
     mapStateToProps,

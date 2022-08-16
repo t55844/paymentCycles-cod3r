@@ -38,11 +38,21 @@ export const createOnDatabase = (postState) => (data) => {
         .catch(error => toastCheack('failed', `Nao foi possivel cadastrar por que: ${error}`))
 
 }
-export const updateOnDatabase = () => (data) => {
+
+function checkUpdated(res, patchState) {
+    if (res.ok != 0) {
+        toastCheack('success', 'O ciclo foi atualizado com sucesso')
+        patchState('success')
+    } else {
+        toastCheack('failed', 'Nao foi possivel atualizar o ciclo')
+        patchState('failed')
+
+    }
+}
+
+export const updateOnDatabase = (patchState) => (data) => {
     const body = bodyPaymentCyclesContructor(data)
     const id = data._id ? data._id : ''
-    console.log(id)
-    console.log(data)
 
     fetch(`http://localhost:3003/api/paymentCycle/${id}`, {
         method: 'PATCH',
@@ -52,7 +62,7 @@ export const updateOnDatabase = () => (data) => {
         body: JSON.stringify(body)
     })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => checkUpdated(res, patchState))
         .catch(error => toastCheack('failed', `Nao foi possivel atualizar por que: ${error}`))
 
 }
