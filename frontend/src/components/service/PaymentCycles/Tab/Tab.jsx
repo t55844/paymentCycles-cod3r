@@ -23,50 +23,47 @@ const Tab = props => {
     const postToPaymentCycles = createOnDatabase(props.postState)
     const patchToPaymentCycles = updateOnDatabase(props.patchState)
 
-    function tabTarget(target) {
+    function renderingInitialState(target) {
+        props.setTabOnNow(target)
+        tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
+        props.getList()
+        props.showTab('Listar', 'Incluir',)
+
+    }
+    function setTabTargetToView(target) {
         props.setTabOnNow(target)
         tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
     }
 
     useEffect(() => {
         const target = props.tabTarget
-        tabTarget(target)
+        setTabTargetToView(target)
     }, [props.tabTarget])
 
     useEffect(() => {
         if (props.patch === 'success') {
-            props.showTab('Listar', 'Incluir',)
-            tabTarget('Listar')
-            props.getList()
+            renderingInitialState('Listar')
             props.patchState('failed')
         }
-    }, [props.patch])
-    useEffect(() => {
-        if (props.post === 'success') {
-            props.showTab('Listar', 'Incluir',)
-            tabTarget('Listar')
+        else if (props.post === 'success') {
+            renderingInitialState('Listar')
         }
-    }, [props.post])
-
-    useEffect(() => {
-        if (props.deleted === 'success') {
-            tabTarget('Listar')
-            props.getList()
+        else if (props.deleted === 'success') {
+            renderingInitialState('Listar')
             props.deletedState('failed')
         }
-    }, [props.deleted])
+    }, [props.patch, props.post, props.deleted])
 
     useEffect(() => {
-        props.showTab('Listar', 'Incluir',)
-        props.setTabOnNow('Listar')
+        renderingInitialState('Listar')
     }, [])
     return (
         <div className="tab-container">
             <ul className="tabs-headers">
-                <If test={props.tabsShowed['Listar']}><TabHeader cssActive={lista} title='Listar' tabTarget={tabTarget} /></If>
-                <If test={props.tabsShowed['Incluir']}><TabHeader cssActive={incluir} title='Incluir' tabTarget={tabTarget} /></If>
-                <If test={props.tabsShowed['Alterar']}><TabHeader cssActive={alterar} title='Alterar' tabTarget={tabTarget} /></If>
-                <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={tabTarget} /></If>
+                <If test={props.tabsShowed['Listar']}><TabHeader cssActive={lista} title='Listar' tabTarget={setTabTargetToView} /></If>
+                <If test={props.tabsShowed['Incluir']}><TabHeader cssActive={incluir} title='Incluir' tabTarget={setTabTargetToView} /></If>
+                <If test={props.tabsShowed['Alterar']}><TabHeader cssActive={alterar} title='Alterar' tabTarget={setTabTargetToView} /></If>
+                <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={setTabTargetToView} /></If>
             </ul>
             <If test={props.tabsShowed['Listar']}>
                 <TabContent css={props.tabTarget === 'Listar' ? "" : 'none'}>

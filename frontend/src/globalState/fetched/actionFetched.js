@@ -21,7 +21,7 @@ export function deletedState(state) {
             payload: state
         }
     } else {
-        const menssage = `erro no deletedState: ${state}`
+        const menssage = `erro no postState: ${state}`
         return {
             type: 'ERRO_FETCHED_DELETED',
             payload: menssage
@@ -43,3 +43,4 @@ export function patchState(state) {
         }
     }
 }
+
