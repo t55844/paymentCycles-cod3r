@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { applyMiddleware, legacy_createStore } from 'redux';
 import { Provider } from 'react-redux';
 import promise from 'redux-promise';
+import multi from 'redux-multi'
 
 import './index.css';
 
@@ -12,7 +13,7 @@ import reducers from './globalState/reducers'
 import App from './App';
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-const store = applyMiddleware(promise)(legacy_createStore)(reducers, devTools)
+const store = applyMiddleware(multi, promise)(legacy_createStore)(reducers, devTools)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

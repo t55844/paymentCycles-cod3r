@@ -8,16 +8,17 @@ export function showTab(...tabsTarget) {
 }
 
 export function setTabOnNow(tabTarget) {
-    const tabs = ['Listar', 'Incluir', 'Adicionar', 'Excluir']
+    const tabs = ['Listar', 'Incluir', 'Alterar', 'Excluir']
     if (tabs.includes(tabTarget)) {
         return {
             type: 'TAB_ON_NOW',
             payload: tabTarget
         }
     } else {
+        const menssage = `setTabOnNow deu erro, payload:${tabTarget}`
         return {
-            type: 'ERRO',
-            payload: `setTabOnNow deu erro payload:${tabTarget}`
+            type: 'ERROR_TAB_ACTIONS',
+            payload: menssage
         }
     }
 }

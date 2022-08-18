@@ -48,11 +48,19 @@
 
 }
 
+.button-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 .form-button {
     background-color: #56b6dd;
     border: none;
     width: 20%;
-    height: 5%;
+    height: 100%;
+    margin: 0 5%;
 }
 
 .form-button:hover {
