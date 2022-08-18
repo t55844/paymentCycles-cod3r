@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
-export const updateCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
+export const toUpdateCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
     setCycleToExclude(cycle)
     setTabOnNow('Alterar')
     showTab('Alterar')

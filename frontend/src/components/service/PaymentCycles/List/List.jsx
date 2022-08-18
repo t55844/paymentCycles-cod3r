@@ -7,12 +7,12 @@ import { getList, setCycleToExclude } from "../../../../globalState/paymentCycle
 import Button from "../../../templates/Button/Button";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import { deletedState, postState } from "../../../../globalState/fetched/actionFetched";
-import { deleteCycle, updateCycle } from './functionsList'
+import { deleteCycle, toUpdateCycle } from './functionsList'
 
 const List = props => {
 
     const actionDelete = deleteCycle(props.deletedState)
-    const actionUpdate = updateCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude)
+    const actionUpdate = toUpdateCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude)
     useEffect(() => {
         props.getList()
     }, [])

@@ -1,14 +1,19 @@
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
-function checkFeatch(response, postState) {
-    if (response.name) {
-        toastCheack('success', 'Cadastrado com sucesso !')
-        postState('success')
-    } else {
-        toastCheack('failed', `Nao foi possivel cadastrar por causa do: ${response.mensage}`)
-        postState('failed')
-    }
+function requisitionStructure(method, body, failureMessage, id = ' ') {
+    return fetch(`http://localhost:3003/api/paymentCycle/${id}`, {
+        method: method,
+        headers: {
+            'Accept': '*/*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+        .then(res => res.json())
+        .then(res => res)
+        .catch(error => toastCheack('failed', `${failureMessage}: ${error}`))
 }
+
 
 function bodyPaymentCyclesContructor(data) {
     const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor } = data
@@ -22,49 +27,32 @@ function bodyPaymentCyclesContructor(data) {
     return body
 }
 
-export const createOnDatabase = (postState) => (data) => {
-    const body = bodyPaymentCyclesContructor(data)
-
-    fetch('http://localhost:3003/api/paymentCycle', {
-        method: 'POST',
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
-        .then(res => res.json())
-        .then(res => checkFeatch(res, postState))
-        .catch(error => toastCheack('failed', `Nao foi possivel cadastrar por que: ${error}`))
-
-}
-
-function checkUpdated(res, patchState) {
-    if (res.ok != 0) {
-        toastCheack('success', 'O ciclo foi atualizado com sucesso')
-        patchState('success')
+function checkFeatch(response, setState, test, successMenssage, failureMenssage) {
+    if (test) {
+        toastCheack('success', `${successMenssage}`)
+        setState('success')
     } else {
-        toastCheack('failed', 'Nao foi possivel atualizar o ciclo')
-        patchState('failed')
-
+        toastCheack('failed', `${failureMenssage}: ${response.mensage}`)
+        setState('failed')
     }
 }
 
-export const updateOnDatabase = (patchState) => (data) => {
+export const createOnDatabase = (postState) => async (data) => {
     const body = bodyPaymentCyclesContructor(data)
-    const id = data._id ? data._id : ''
 
-    fetch(`http://localhost:3003/api/paymentCycle/${id}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
-        .then(res => res.json())
-        .then(res => checkUpdated(res, patchState))
-        .catch(error => toastCheack('failed', `Nao foi possivel atualizar por que: ${error}`))
+    const result = await requisitionStructure('POST', body, 'Nao foi possivel cadastrar por que')
+    const test = result.name
 
+    checkFeatch(result, postState, test, 'Cadastrado com sucesso !', 'Nao foi possivel cadastrar por causa do')
+}
+
+export const updateOnDatabase = (patchState) => async (data) => {
+    const body = bodyPaymentCyclesContructor(data)
+    const id = data._id
+    const result = await requisitionStructure('PATCH', body, 'Nao foi possivel atualizar por que', id)
+    const test = result.ok !== 0
+
+    checkFeatch(result, patchState, test, 'O ciclo foi atualizado com sucesso', 'Nao foi possivel atualizar o ciclo')
 }
 
 
@@ -74,3 +62,4 @@ export function tabHeaderSelected(target, setLista, setIncluir, setAlterar, setE
     if (target === 'Alterar') { setLista(''); setIncluir(''); setAlterar('1'); setExcluir(''); }
     if (target === 'Excluir') { setLista(''); setIncluir(''); setAlterar(''); setExcluir('1'); }
 }
+
