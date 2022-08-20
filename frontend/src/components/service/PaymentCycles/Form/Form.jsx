@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
@@ -6,11 +7,13 @@ import { bindActionCreators } from "redux";
 import { postState } from "../../../../globalState/fetched/actionFetched";
 import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
+import If from "../../../helpHandlers/If";
 
 
 import './Form.css'
 
 const Form = props => {
+    const [addCyle, setAddCycle] = useState(false)
     function resetForm() {
         props.getList()
         reset()
@@ -28,7 +31,7 @@ const Form = props => {
         debitoNome: props.cycle.debts[0].name,
         debitoValor: props.cycle.debts[0].value,
     } : ''
-    const { register, handleSubmit, reset, formState: { errors } } = useForm(
+    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm(
         props.cycle ? { defaultValues: preloadedValues } : ''
     )
     useEffect(() => {
@@ -65,28 +68,62 @@ const Form = props => {
                         {errors.ano && <span>O campo ano e necessario</span>}
                     </div>
                 </div>
-                <div className="field-transactions">
-                    <div className="field-box">
+                <If test={addCyle === false}>
+                    <div className="field-transactions">
+                        <div className="field-box">
 
-                        <label htmlFor="">Credito Nome</label>
-                        <input {...register("creditoNome", { required: true })} />
-                        {errors.ano && <span>O nome do credito e necessario</span>}
+                            <label htmlFor="">Credito Nome</label>
+                            <input {...register("creditoNome", { required: true })} />
+                            {errors.ano && <span>O nome do credito e necessario</span>}
 
-                        <label htmlFor="">Credito Valor</label>
-                        <input {...register("creditoValor", { required: true })} />
-                        {errors.ano && <span>O valor do credito e necessario</span>}
+                            <label htmlFor="">Credito Valor</label>
+                            <input {...register("creditoValor", { required: true })} />
+                            {errors.ano && <span>O valor do credito e necessario</span>}
+                        </div>
+                        <div className="field-box">
+
+                            <label htmlFor="">Debito Nome</label>
+                            <input {...register("debitoNome", { required: true })} />
+                            {errors.ano && <span>O nome do debito e necessario</span>}
+
+                            <label htmlFor="">Debito Valor</label>
+                            <input {...register("debitoValor", { required: true })} />
+                            {errors.ano && <span>O valor do debito e necessario</span>}
+
+                            <label htmlFor="">Debito Estatus</label>
+                            <input {...register("debitoEstato", { required: false })} />
+
+                        </div>
                     </div>
-                    <div className="field-box">
+                </If>
 
-                        <label htmlFor="">Debito Nome</label>
-                        <input {...register("debitoNome", { required: true })} />
-                        {errors.ano && <span>O nome do debito e necessario</span>}
+                <If test={addCyle === true}>
+                    <div className="field-transactions-adicional">
+                        <div className="field-box">
 
-                        <label htmlFor="">Debito Valor</label>
-                        <input {...register("debitoValor", { required: true })} />
-                        {errors.ano && <span>O valor do debito e necessario</span>}
+                            <label htmlFor="">Credito Nome</label>
+                            <input {...register("creditoNomeAdd", { required: true })} />
+                            {errors.ano && <span>O nome do credito e necessario</span>}
+
+                            <label htmlFor="">Credito Valor</label>
+                            <input {...register("creditoValorAdd", { required: true })} />
+                            {errors.ano && <span>O valor do credito e necessario</span>}
+                        </div>
+                        <div className="field-box">
+
+                            <label htmlFor="">Debito Nome</label>
+                            <input {...register("debitoNomeAdd", { required: true })} />
+                            {errors.ano && <span>O nome do debito e necessario</span>}
+
+                            <label htmlFor="">Debito Valor</label>
+                            <input {...register("debitoValorAdd", { required: true })} />
+                            {errors.ano && <span>O valor do debito e necessario</span>}
+
+                            <label htmlFor="">Debito Estatus</label>
+                            <input {...register("debitoEstatoAdd", { required: false })} />
+                        </div>
                     </div>
-                </div>
+                </If>
 
             </div>
             <div className="button-container">
@@ -97,12 +134,20 @@ const Form = props => {
                         props.showTab('Listar', 'Incluir',)
                     }}
                 >cancelar</button>
+                <If test={props.tabTarget === 'Alterar'}>
+                    <button className="form-button" type="button"
+                        onClick={() => { setAddCycle(true) }}
+                    >adicionar</button>
+                </If>
             </div>
         </form>
     );
 }
 
-const mapStateToProps = state => ({ post: state.fetched.post })
+const mapStateToProps = state => ({
+    post: state.fetched.post,
+    tabTarget: state.tab.tabTarget
+})
 
 const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState }, dispatch)
 

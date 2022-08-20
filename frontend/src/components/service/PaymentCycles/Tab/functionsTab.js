@@ -16,13 +16,25 @@ function requisitionStructure(method, body, failureMessage, id = ' ') {
 
 
 function bodyPaymentCyclesContructor(data) {
-    const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor } = data
+    const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor, debitoEstado } = data
     const body = {
         name: nome
         , month: mes
         , year: ano
         , credits: [{ name: creditoNome, value: creditoValor }]
-        , debts: [{ name: debitoNome, value: debitoValor }]
+        , debts: [{ name: debitoNome, value: debitoValor, status: debitoEstado }]
+    }
+    return body
+}
+function bodyPaymentCyclesContructorToUpdate(data, cycleToExclude) {
+    const { nome, mes, ano, creditoNomeAdd, creditoValorAdd, debitoNomeAdd, debitoValorAdd, debitoEstadoAdd } = data
+
+    const body = {
+        name: nome
+        , month: mes
+        , year: ano
+        , credits: [...cycleToExclude.credits, { name: creditoNomeAdd, value: creditoValorAdd }]
+        , debts: [...cycleToExclude.debts, { name: debitoNomeAdd, value: debitoValorAdd, status: debitoEstadoAdd }]
     }
     return body
 }
@@ -46,8 +58,8 @@ export const createOnDatabase = (postState) => async (data) => {
     checkFeatch(result, postState, test, 'Cadastrado com sucesso !', 'Nao foi possivel cadastrar por causa do')
 }
 
-export const updateOnDatabase = (patchState) => async (data) => {
-    const body = bodyPaymentCyclesContructor(data)
+export const updateOnDatabase = (patchState, cycleToExclude) => async (data) => {
+    const body = bodyPaymentCyclesContructorToUpdate(data, cycleToExclude)
     const id = data._id
     const result = await requisitionStructure('PATCH', body, 'Nao foi possivel atualizar por que', id)
     const test = result.ok !== 0

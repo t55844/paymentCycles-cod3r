@@ -21,7 +21,7 @@ const Tab = props => {
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase(props.patchState)
+    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleToExclude)
 
     function renderingInitialState(target) {
         props.setTabOnNow(target)
