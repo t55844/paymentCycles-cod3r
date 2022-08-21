@@ -11,7 +11,7 @@ import List from "../List/List";
 import Form from "../Form/Form"
 import { createOnDatabase, tabHeaderSelected, updateOnDatabase } from "./functionsTab";
 import { deletedState, patchState, postState } from "../../../../globalState/fetched/actionFetched";
-import { excludeCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 
 
 const Tab = props => {
@@ -21,7 +21,7 @@ const Tab = props => {
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleSelected, props.cycleExclude, props.excludeCycle)
+    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleSelected)
 
     function renderingInitialState(target) {
         props.setTabOnNow(target)
@@ -95,10 +95,9 @@ const mapStateToProps = state => ({
     deleted: state.fetched.deleted,
     patch: state.fetched.patch,
     cycleSelected: state.paymentCycles.cycleSelected,
-    cycleExclude: state.paymentCycles.cycleExclude
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList, excludeCycle }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList }, dispatch)
 
 export default connect(
     mapStateToProps,

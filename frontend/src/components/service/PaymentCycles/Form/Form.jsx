@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { postState } from "../../../../globalState/fetched/actionFetched";
-import { editCycle, excludeCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { addCycle, editCycle, excludeCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 
@@ -63,7 +63,7 @@ const Form = props => {
             } : ''
         }
     }
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm(
+    const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm(
         props.cycle ? { defaultValues: preloadedValues() } : ''
     )
 
@@ -157,7 +157,17 @@ const Form = props => {
 
             </div>
             <div className="button-container">
-                <input className="form-button" type="submit" />
+                <If test={props.tabTarget === 'Incluir'}>
+                    <input className="form-button" type="submit" />
+                </If>
+                <If test={props.tabTarget === 'Alterar'}>
+                    <button className="form-button" type="button"
+                        onClick={() => {
+                            props.addCycle(props.cycle, { name: getValues('creditoNome'), value: getValues('creditoValor') }, { name: getValues('debitoNome'), value: getValues('debitoValor') })
+                            props.onSubmit(props.cycleSelected)
+                        }}
+                    >atualizar</button>
+                </If>
                 <button className="form-button" type="button"
                     onClick={() => {
                         props.setTabOnNow('Listar')
@@ -168,11 +178,8 @@ const Form = props => {
                 <If test={props.tabTarget === 'Alterar'}>
                     <button className="form-button" type="button"
                         onClick={() => {
-                            props.excludeCycle(true)
                             props.editCycle(props.cycle, countToCurrentCycle)
-                            props.onSubmit(props.cycle)
-                            props.setTabOnNow('Listar')
-                            props.showTab('Listar', 'Incluir',)
+                            props.onSubmit(props.cycleSelected)
                         }}
                     >excluir</button>
                     <div className="navigate-button">
@@ -206,10 +213,11 @@ const Form = props => {
 
 const mapStateToProps = state => ({
     post: state.fetched.post,
-    tabTarget: state.tab.tabTarget
+    tabTarget: state.tab.tabTarget,
+    cycleSelected: state.paymentCycles.cycleSelected
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycle, excludeCycle, }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycle, excludeCycle, addCycle }, dispatch)
 
 export default connect(
     mapStateToProps,

@@ -20,6 +20,7 @@ export function editCycle(cycle, index) {
     cycle.credits.splice(index, 1)
     cycle.debts.splice(index, 1)
     const newCycle = cycle
+    console.log(newCycle)
     return {
         type: 'PAYMENT_SELECTED',
         payload: newCycle
@@ -29,6 +30,14 @@ export function excludeCycle(boolean) {
     return {
         type: 'PAYMENT_EXCLUDE',
         payload: boolean
+    }
+}
+export function addCycle(cycle, credit, debt) {
+    cycle.credits.push(credit)
+    cycle.debts.push(debt)
+    return {
+        type: 'PAYMENT_EXCLUDE',
+        payload: cycle
     }
 }
 
