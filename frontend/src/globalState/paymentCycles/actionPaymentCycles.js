@@ -15,3 +15,14 @@ export function setCycleToExclude(cycle) {
         payload: cycle
     }
 }
+
+export function editCycleToExclude(cycle, index) {
+    console.log(cycle, cycle.credits)
+    cycle.credits.splice(index, 1)
+    cycle.debts.splice(index, 1)
+    const newCycle = cycle
+    return {
+        type: 'PAYMENT_CYCLES_EXCLUDE',
+        payload: newCycle
+    }
+}

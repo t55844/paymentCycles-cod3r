@@ -5,15 +5,14 @@ import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { postState } from "../../../../globalState/fetched/actionFetched";
-import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { editCycleToExclude, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 
 
 import './Form.css'
-
 const Form = props => {
-    const [addCyle, setAddCycle] = useState(false)
+    const [countToCurrentCycle, setCountToCurrentCycle] = useState(0)
     function resetForm() {
         props.getList()
         reset()
@@ -21,28 +20,77 @@ const Form = props => {
         props.postState('failed')
 
     }
-    const preloadedValues = props.cycle ? {
-        _id: props.cycle._id,
-        nome: props.cycle.name,
-        mes: props.cycle.month,
-        ano: props.cycle.year,
-        creditoNome: props.cycle.credits[0].name,
-        creditoValor: props.cycle.credits[0].value,
-        debitoNome: props.cycle.debts[0].name,
-        debitoValor: props.cycle.debts[0].value,
-    } : ''
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm(
-        props.cycle ? { defaultValues: preloadedValues } : ''
+
+    const limiterCount = props.cycle.credits ? props.cycle.credits.length : 0
+
+
+    const preloadedValues = () => {
+
+        console.log(countToCurrentCycle, limiterCount)
+        if (countToCurrentCycle === limiterCount) {
+            return props.cycle ? {
+                _id: props.cycle._id,
+                nome: props.cycle.name,
+                mes: props.cycle.month,
+                ano: props.cycle.year,
+                creditoNome: props.cycle.credits[0].name,
+                creditoValor: props.cycle.credits[0].value,
+                debitoNome: props.cycle.debts[0].name,
+                debitoValor: props.cycle.debts[0].value,
+            } : ''
+        } else {
+            return props.cycle ? {
+                _id: props.cycle._id,
+                nome: props.cycle.name,
+                mes: props.cycle.month,
+                ano: props.cycle.year,
+                creditoNome: props.cycle.credits[countToCurrentCycle].name,
+                creditoValor: props.cycle.credits[countToCurrentCycle].value,
+                debitoNome: props.cycle.debts[countToCurrentCycle].name,
+                debitoValor: props.cycle.debts[countToCurrentCycle].value,
+            } : ''
+        }
+    }
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm(
+        props.cycle ? { defaultValues: preloadedValues() } : ''
     )
+
+
+    function selectCycleToEditOrCreate() {
+        if (countToCurrentCycle === limiterCount) {
+            setValue('creditoNome', '')
+            setValue('creditoValor', '')
+            setValue('debitoNome', '')
+            setValue('debitoValor', '')
+        } else {
+            setValue('creditoNome', preloadedValues().creditoNome)
+            setValue('creditoValor', preloadedValues().creditoValor)
+            setValue('debitoNome', preloadedValues().debitoNome)
+            setValue('debitoValor', preloadedValues().debitoValor)
+        }
+    }
+
     useEffect(() => {
         if (props.post === 'success') {
             resetForm()
         }
     }, [props.post])
-    function onSubmit(data) {
-        props.onSubmit(data)
-    }
+    useEffect(() => {
+        selectCycleToEditOrCreate()
+    }, [countToCurrentCycle])
 
+    function onSubmit(data) {
+        if (props.tabTarget === 'Incluir') {
+            props.onSubmit(data)
+        } else {
+            if (countToCurrentCycle === limiterCount) {
+                props.onSubmit(data)
+            } else {
+                props.editCycleToExclude(props.cycle, countToCurrentCycle)
+                props.onSubmit(data)
+            }
+        }
+    }
     return (
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
         <form className="form" onSubmit={handleSubmit(onSubmit)}>
@@ -68,62 +116,32 @@ const Form = props => {
                         {errors.ano && <span>O campo ano e necessario</span>}
                     </div>
                 </div>
-                <If test={addCyle === false}>
-                    <div className="field-transactions">
-                        <div className="field-box">
+                <div className="field-transactions">
+                    <div className="field-box">
 
-                            <label htmlFor="">Credito Nome</label>
-                            <input {...register("creditoNome", { required: true })} />
-                            {errors.ano && <span>O nome do credito e necessario</span>}
+                        <label htmlFor="">Credito Nome</label>
+                        <input {...register("creditoNome", { required: true })} />
+                        {errors.ano && <span>O nome do credito e necessario</span>}
 
-                            <label htmlFor="">Credito Valor</label>
-                            <input {...register("creditoValor", { required: true })} />
-                            {errors.ano && <span>O valor do credito e necessario</span>}
-                        </div>
-                        <div className="field-box">
-
-                            <label htmlFor="">Debito Nome</label>
-                            <input {...register("debitoNome", { required: true })} />
-                            {errors.ano && <span>O nome do debito e necessario</span>}
-
-                            <label htmlFor="">Debito Valor</label>
-                            <input {...register("debitoValor", { required: true })} />
-                            {errors.ano && <span>O valor do debito e necessario</span>}
-
-                            <label htmlFor="">Debito Estatus</label>
-                            <input {...register("debitoEstato", { required: false })} />
-
-                        </div>
+                        <label htmlFor="">Credito Valor</label>
+                        <input {...register("creditoValor", { required: true })} />
+                        {errors.ano && <span>O valor do credito e necessario</span>}
                     </div>
-                </If>
+                    <div className="field-box">
 
-                <If test={addCyle === true}>
-                    <div className="field-transactions-adicional">
-                        <div className="field-box">
+                        <label htmlFor="">Debito Nome</label>
+                        <input {...register("debitoNome", { required: true })} />
+                        {errors.ano && <span>O nome do debito e necessario</span>}
 
-                            <label htmlFor="">Credito Nome</label>
-                            <input {...register("creditoNomeAdd", { required: true })} />
-                            {errors.ano && <span>O nome do credito e necessario</span>}
+                        <label htmlFor="">Debito Valor</label>
+                        <input {...register("debitoValor", { required: true })} />
+                        {errors.ano && <span>O valor do debito e necessario</span>}
 
-                            <label htmlFor="">Credito Valor</label>
-                            <input {...register("creditoValorAdd", { required: true })} />
-                            {errors.ano && <span>O valor do credito e necessario</span>}
-                        </div>
-                        <div className="field-box">
+                        <label htmlFor="">Debito Estatus</label>
+                        <input {...register("debitoEstato", { required: false })} />
 
-                            <label htmlFor="">Debito Nome</label>
-                            <input {...register("debitoNomeAdd", { required: true })} />
-                            {errors.ano && <span>O nome do debito e necessario</span>}
-
-                            <label htmlFor="">Debito Valor</label>
-                            <input {...register("debitoValorAdd", { required: true })} />
-                            {errors.ano && <span>O valor do debito e necessario</span>}
-
-                            <label htmlFor="">Debito Estatus</label>
-                            <input {...register("debitoEstatoAdd", { required: false })} />
-                        </div>
                     </div>
-                </If>
+                </div>
 
             </div>
             <div className="button-container">
@@ -136,11 +154,26 @@ const Form = props => {
                 >cancelar</button>
                 <If test={props.tabTarget === 'Alterar'}>
                     <button className="form-button" type="button"
-                        onClick={() => { setAddCycle(true) }}
-                    >adicionar</button>
+                        onClick={() => {
+                            if (countToCurrentCycle === 0) {
+                                setCountToCurrentCycle(0)
+                            } else {
+                                setCountToCurrentCycle(countToCurrentCycle - 1)
+                            }
+                        }}
+                    >anterior</button>
+                    <button className="form-button" type="button"
+                        onClick={() => {
+                            if (countToCurrentCycle === limiterCount) {
+                                setCountToCurrentCycle(0)
+                            } else {
+                                setCountToCurrentCycle(countToCurrentCycle + 1)
+                            }
+                        }}
+                    >proximo</button>
                 </If>
             </div>
-        </form>
+        </form >
     );
 }
 
@@ -149,7 +182,7 @@ const mapStateToProps = state => ({
     tabTarget: state.tab.tabTarget
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycleToExclude }, dispatch)
 
 export default connect(
     mapStateToProps,

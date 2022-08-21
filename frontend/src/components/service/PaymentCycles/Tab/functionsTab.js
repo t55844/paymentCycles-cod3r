@@ -27,15 +27,17 @@ function bodyPaymentCyclesContructor(data) {
     return body
 }
 function bodyPaymentCyclesContructorToUpdate(data, cycleToExclude) {
-    const { nome, mes, ano, creditoNomeAdd, creditoValorAdd, debitoNomeAdd, debitoValorAdd, debitoEstadoAdd } = data
+    console.log(data)
+    const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor, debitoEstado } = data
 
     const body = {
         name: nome
         , month: mes
         , year: ano
-        , credits: [...cycleToExclude.credits, { name: creditoNomeAdd, value: creditoValorAdd }]
-        , debts: [...cycleToExclude.debts, { name: debitoNomeAdd, value: debitoValorAdd, status: debitoEstadoAdd }]
+        , credits: [...cycleToExclude.credits, { name: creditoNome, value: creditoValor }]
+        , debts: [...cycleToExclude.debts, { name: debitoNome, value: debitoValor, status: debitoEstado }]
     }
+    console.log(body)
     return body
 }
 
