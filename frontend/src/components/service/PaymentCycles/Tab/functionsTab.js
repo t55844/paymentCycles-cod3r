@@ -17,6 +17,7 @@ function requisitionStructure(method, body, failureMessage, id = ' ') {
 
 function bodyPaymentCyclesContructor(data) {
     const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor, debitoEstado } = data
+
     const body = {
         name: nome
         , month: mes

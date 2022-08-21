@@ -20,7 +20,6 @@ export function editCycle(cycle, index) {
     cycle.credits.splice(index, 1)
     cycle.debts.splice(index, 1)
     const newCycle = cycle
-    console.log(newCycle)
     return {
         type: 'PAYMENT_SELECTED',
         payload: newCycle

@@ -36,6 +36,7 @@ const Form = props => {
                 creditoValor: '',
                 debitoNome: '',
                 debitoValor: '',
+                debitoEstado: ''
             } : ''
         }
 
@@ -49,6 +50,7 @@ const Form = props => {
                 creditoValor: props.cycle.credits[0].value,
                 debitoNome: props.cycle.debts[0].name,
                 debitoValor: props.cycle.debts[0].value,
+                debitoEstado: props.cycle.debts[0].status
             } : ''
         } else {
             return props.cycle ? {
@@ -60,6 +62,7 @@ const Form = props => {
                 creditoValor: props.cycle.credits[countToCurrentCycle].value,
                 debitoNome: props.cycle.debts[countToCurrentCycle].name,
                 debitoValor: props.cycle.debts[countToCurrentCycle].value,
+                debitoEstado: props.cycle.debts[countToCurrentCycle].status,
             } : ''
         }
     }
@@ -74,11 +77,13 @@ const Form = props => {
             setValue('creditoValor', '')
             setValue('debitoNome', '')
             setValue('debitoValor', '')
+            setValue('debitoEstado', '')
         } else {
             setValue('creditoNome', preloadedValues().creditoNome)
             setValue('creditoValor', preloadedValues().creditoValor)
             setValue('debitoNome', preloadedValues().debitoNome)
             setValue('debitoValor', preloadedValues().debitoValor)
+            setValue('debitoEstado', preloadedValues().debitoEstado)
         }
     }
 
@@ -150,7 +155,7 @@ const Form = props => {
                         {errors.ano && <span>O valor do debito e necessario</span>}
 
                         <label htmlFor="">Debito Estatus</label>
-                        <input {...register("debitoEstato", { required: false })} />
+                        <input {...register("debitoEstado", { required: false })} />
 
                     </div>
                 </div>
@@ -163,7 +168,11 @@ const Form = props => {
                 <If test={props.tabTarget === 'Alterar'}>
                     <button className="form-button" type="button"
                         onClick={() => {
-                            props.addCycle(props.cycle, { name: getValues('creditoNome'), value: getValues('creditoValor') }, { name: getValues('debitoNome'), value: getValues('debitoValor') })
+                            props.editCycle(props.cycle, countToCurrentCycle)
+                            props.addCycle(
+                                props.cycle,
+                                { name: getValues('creditoNome'), value: getValues('creditoValor') },
+                                { name: getValues('debitoNome'), value: getValues('debitoValor'), status: getValues('debitoEstado') })
                             props.onSubmit(props.cycleSelected)
                         }}
                     >atualizar</button>
