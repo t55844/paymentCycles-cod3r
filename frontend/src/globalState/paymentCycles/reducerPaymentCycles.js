@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     list: [],
     cycleSelected: '',
+    cycleExclude: false
 }
 
 export default function (state = INITIAL_STATE, action) {
@@ -9,6 +10,8 @@ export default function (state = INITIAL_STATE, action) {
             return { ...state, list: action.payload }
         case 'PAYMENT_SELECTED':
             return { ...state, cycleSelected: action.payload }
+        case 'PAYMENT_EXCLUDE':
+            return { ...state, cycleExclude: action.payload }
         default:
             return state
     }

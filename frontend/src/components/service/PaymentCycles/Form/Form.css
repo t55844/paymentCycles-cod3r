@@ -79,6 +79,14 @@
 
 }
 
+.navigate-button {
+    width: 45%;
+}
+
+.navigate {
+    width: 25%;
+}
+
 @media (max-width: 900px) {
     .form-title {
         font-size: medium;

@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { postState } from "../../../../globalState/fetched/actionFetched";
-import { editCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { editCycle, excludeCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 
@@ -164,25 +164,40 @@ const Form = props => {
                         props.showTab('Listar', 'Incluir',)
                     }}
                 >cancelar</button>
+
                 <If test={props.tabTarget === 'Alterar'}>
                     <button className="form-button" type="button"
                         onClick={() => {
-                            if (countToCurrentCycle === 0) {
-                                setCountToCurrentCycle(0)
-                            } else {
-                                setCountToCurrentCycle(countToCurrentCycle - 1)
-                            }
+                            props.excludeCycle(true)
+                            props.editCycle(props.cycle, countToCurrentCycle)
+                            props.onSubmit(props.cycle)
+                            props.setTabOnNow('Listar')
+                            props.showTab('Listar', 'Incluir',)
                         }}
-                    >anterior</button>
-                    <button className="form-button" type="button"
-                        onClick={() => {
-                            if (countToCurrentCycle === limiterCount) {
-                                setCountToCurrentCycle(0)
-                            } else {
-                                setCountToCurrentCycle(countToCurrentCycle + 1)
-                            }
-                        }}
-                    >proximo</button>
+                    >excluir</button>
+                    <div className="navigate-button">
+                        <button className="form-button navigate" type="button"
+                            onClick={() => {
+                                if (countToCurrentCycle === 0) {
+                                    setCountToCurrentCycle(0)
+                                } else {
+                                    setCountToCurrentCycle(countToCurrentCycle - 1)
+                                }
+                            }}
+                        >anterior</button>
+
+                        <button className="form-button navigate" type="button"
+                            onClick={() => {
+                                if (countToCurrentCycle === limiterCount) {
+                                    setCountToCurrentCycle(0)
+                                } else {
+                                    setCountToCurrentCycle(countToCurrentCycle + 1)
+                                }
+                            }}
+                        >proximo</button>
+
+                    </div>
+
                 </If>
             </div>
         </form >
@@ -194,7 +209,7 @@ const mapStateToProps = state => ({
     tabTarget: state.tab.tabTarget
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycle }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycle, excludeCycle, }, dispatch)
 
 export default connect(
     mapStateToProps,

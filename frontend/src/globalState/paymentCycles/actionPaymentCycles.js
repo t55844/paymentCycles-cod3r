@@ -17,13 +17,18 @@ export function setCycleSelected(cycle) {
 }
 
 export function editCycle(cycle, index) {
-    console.log(cycle, cycle.credits)
     cycle.credits.splice(index, 1)
     cycle.debts.splice(index, 1)
     const newCycle = cycle
     return {
         type: 'PAYMENT_SELECTED',
         payload: newCycle
+    }
+}
+export function excludeCycle(boolean) {
+    return {
+        type: 'PAYMENT_EXCLUDE',
+        payload: boolean
     }
 }
 
