@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import './List.css'
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux'
-import { getList, setCycleToExclude } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { getList, setCycleSelected } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import Button from "../../../templates/Button/Button";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import { deletedState, postState } from "../../../../globalState/fetched/actionFetched";
@@ -12,7 +12,7 @@ import { deleteCycle, toUpdateCycle } from './functionsList'
 const List = props => {
 
     const actionDelete = deleteCycle(props.deletedState)
-    const actionUpdate = toUpdateCycle(props.showTab, props.setTabOnNow, props.setCycleToExclude)
+    const actionUpdate = toUpdateCycle(props.showTab, props.setTabOnNow, props.setCycleSelected)
     useEffect(() => {
         props.getList()
     }, [])
@@ -62,7 +62,7 @@ const List = props => {
 
 const mapStateToProps = state => ({ list: state.paymentCycles.list })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, getList, setTabOnNow, setCycleToExclude, postState, showTab, }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, getList, setTabOnNow, setCycleSelected, postState, showTab, }, dispatch)
 
 export default connect(
     mapStateToProps,

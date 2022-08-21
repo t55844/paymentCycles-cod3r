@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { connect } from 'react-redux'
 import { bindActionCreators } from "redux";
 import { postState } from "../../../../globalState/fetched/actionFetched";
-import { editCycleToExclude, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
+import { editCycle, getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 import { setTabOnNow, showTab } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 
@@ -26,7 +26,19 @@ const Form = props => {
 
     const preloadedValues = () => {
 
-        console.log(countToCurrentCycle, limiterCount)
+        if (props.cycle.credits.length === 0) {
+            return props.cycle ? {
+                _id: '',
+                nome: '',
+                mes: '',
+                ano: '',
+                creditoNome: '',
+                creditoValor: '',
+                debitoNome: '',
+                debitoValor: '',
+            } : ''
+        }
+
         if (countToCurrentCycle === limiterCount) {
             return props.cycle ? {
                 _id: props.cycle._id,
@@ -86,7 +98,7 @@ const Form = props => {
             if (countToCurrentCycle === limiterCount) {
                 props.onSubmit(data)
             } else {
-                props.editCycleToExclude(props.cycle, countToCurrentCycle)
+                props.editCycle(props.cycle, countToCurrentCycle)
                 props.onSubmit(data)
             }
         }
@@ -118,7 +130,7 @@ const Form = props => {
                 </div>
                 <div className="field-transactions">
                     <div className="field-box">
-
+                        <span className="cyclesCount">{limiterCount}cyclos</span>
                         <label htmlFor="">Credito Nome</label>
                         <input {...register("creditoNome", { required: true })} />
                         {errors.ano && <span>O nome do credito e necessario</span>}
@@ -182,7 +194,7 @@ const mapStateToProps = state => ({
     tabTarget: state.tab.tabTarget
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycleToExclude }, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({ showTab, setTabOnNow, getList, postState, editCycle }, dispatch)
 
 export default connect(
     mapStateToProps,

@@ -9,20 +9,21 @@ export async function getList() {
     }
 }
 
-export function setCycleToExclude(cycle) {
+export function setCycleSelected(cycle) {
     return {
-        type: 'PAYMENT_CYCLES_EXCLUDE',
+        type: 'PAYMENT_SELECTED',
         payload: cycle
     }
 }
 
-export function editCycleToExclude(cycle, index) {
+export function editCycle(cycle, index) {
     console.log(cycle, cycle.credits)
     cycle.credits.splice(index, 1)
     cycle.debts.splice(index, 1)
     const newCycle = cycle
     return {
-        type: 'PAYMENT_CYCLES_EXCLUDE',
+        type: 'PAYMENT_SELECTED',
         payload: newCycle
     }
 }
+

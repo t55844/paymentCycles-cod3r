@@ -21,7 +21,7 @@ const Tab = props => {
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
     const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleToExclude)
+    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleSelected)
 
     function renderingInitialState(target) {
         props.setTabOnNow(target)
@@ -77,7 +77,7 @@ const Tab = props => {
             </If>
             <If test={props.tabsShowed['Alterar']}>
                 <TabContent css={props.tabTarget === 'Alterar' ? "" : 'none'}>
-                    <Form cycle={props.cycleToExclude} onSubmit={patchToPaymentCycles} />
+                    <Form cycle={props.cycleSelected} onSubmit={patchToPaymentCycles} />
                 </TabContent>
             </If>
             <If test={props.tabsShowed['Excluir']}>
@@ -94,7 +94,7 @@ const mapStateToProps = state => ({
     post: state.fetched.post,
     deleted: state.fetched.deleted,
     patch: state.fetched.patch,
-    cycleToExclude: state.paymentCycles.cycleToExclude
+    cycleSelected: state.paymentCycles.cycleSelected
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList }, dispatch)

@@ -70,6 +70,15 @@
     transform: scale(1.2);
 }
 
+.cyclesCount {
+    font-size: x-small;
+    border: 3px solid #2e54a7;
+    width: 13%;
+    padding: 2px;
+    margin: 2px 80% 2px;
+
+}
+
 @media (max-width: 900px) {
     .form-title {
         font-size: medium;
@@ -88,6 +97,11 @@
 
     .field-box input {
         margin: 1% 0;
+    }
+
+    .form-button {
+        height: 50%;
+        margin: 5%;
     }
 
 }
