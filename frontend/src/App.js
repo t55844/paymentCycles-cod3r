@@ -9,6 +9,7 @@ import Header from './components/templates/Header/Header';
 import Sidebar from './components/templates/Sidebar/Sidebar';
 import Dashboard from './components/service/Dashboard/Dashboard';
 import PaymentCycles from './components/service/PaymentCycles/PaymentCycles';
+import Enter from './components/service/user/Enter/Enter';
 
 function App() {
   const [actionsSidebar, setActionsSidebar] = useState('sidebar')
@@ -24,7 +25,8 @@ function App() {
         />
         <div className='content'>
           <Routes>
-            <Route path='/' element={<Dashboard />} />
+            <Route path='/' element={<Enter />} />
+            <Route path='/Dashboard' element={<Dashboard />} />
             <Route path='/PaymentCycles' element={<PaymentCycles />} />
           </Routes>
         </div>

@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     background-image: linear-gradient(to bottom right, #56b6dd, #2e54a7);
+    padding: 2%;
 }
 
 .form-title {

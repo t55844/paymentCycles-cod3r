@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import UserBox from "../../service/user/UserBox/UserBox";
 
 import './Header.css'
 
@@ -49,6 +50,7 @@ export default props => {
                 onClick={() => hideButton()}>{toggle}
             </button>
 
+            <UserBox />
         </div >
     )
 }
