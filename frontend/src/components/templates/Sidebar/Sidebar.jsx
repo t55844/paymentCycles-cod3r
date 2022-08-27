@@ -65,7 +65,6 @@ export default props => {
                 <MenuItem
                     actionClick={actionClick}
                     linkActive={linkCadastro}
-                    pathMenu='/'
                     iconMenu={"https://img.icons8.com/material/24/000000/approximately-equal-2--v1.png"}
                     labelMenu='Cadastro'
                     pathSubmenu='/PaymentCycles'

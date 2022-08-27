@@ -26,6 +26,7 @@ const Signup = props => {
 
     return (
         <form className="form" onSubmit={handleSubmit(signup)}>
+            <h2>Registre-se</h2>
             <div className="field-profile">
                 <div className="field-box">
                     <label htmlFor="nome">Nome</label>
@@ -45,14 +46,21 @@ const Signup = props => {
                     <input type='password' {...register("confirmeSenha", { required: true })} />
                     {errors.exampleRequired && <span>A senha e necessaria</span>}
                 </div>
-                <input className="form-button" style={{ height: '20px' }} type="submit" />
+                <button className="enter-button" type="submit" >
+                    registrar-se
+                </button>
             </div>
         </form>
     );
 }
 
+const mapStateToProps = state => ({
+    signup: state.fetched.signup,
+})
+
 const mapDispatchToProps = dispatch => bindActionCreators({ signupState }, dispatch)
 
 export default connect(
+    mapStateToProps,
     mapDispatchToProps
 )(Signup)

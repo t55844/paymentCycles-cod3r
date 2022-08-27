@@ -1,12 +1,10 @@
+import { header } from '../../../helpHandlers/headerAuth';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
 export function requisitionStructure(method, body, failureMessage, url, id = ' ') {
     return fetch(url, {
         method: method,
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json'
-        },
+        headers: header,
         body: JSON.stringify(body)
     })
         .then(res => res.json())

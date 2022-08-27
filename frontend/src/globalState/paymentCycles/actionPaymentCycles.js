@@ -1,7 +1,10 @@
+import { header } from "../../components/helpHandlers/headerAuth"
+
 const URL_BASE = 'http://localhost:3003/api/paymentCycle'
 
+
 export async function getList() {
-    const request = await fetch(URL_BASE)
+    const request = await fetch(URL_BASE, { method: 'GET', headers: header })
     const data = await request.json()
     return {
         type: 'PAYMENT_CYCLES_FECHED',

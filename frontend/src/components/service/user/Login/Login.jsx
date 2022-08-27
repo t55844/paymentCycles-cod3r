@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { checkFeatch, requisitionStructure } from "../../PaymentCycles/Tab/functionsTab";
 
 import '../../Form/Form.css'
+import '../Enter/Enter.css'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loginState } from "../../../../globalState/fetched/actionFetched";
 import { loginAuth } from "../../../../globalState/auth/actionAuth";
+
 
 const Login = props => {
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -28,6 +30,7 @@ const Login = props => {
 
     return (
         <form className="form" onSubmit={handleSubmit(login)}>
+            <h2>Entre em sua conta aqui</h2>
             <div className="field-profile">
                 <div className="field-box">
                     <label htmlFor="email">Email</label>
@@ -39,7 +42,7 @@ const Login = props => {
                     <input type='password' {...register("senha", { required: true })} />
                     {errors.exampleRequired && <span>A senha e necessaria</span>}
                 </div>
-                <input className="form-button" style={{ height: '20px' }} type="submit" />
+                <button className="enter-button" type="submit" >entrar</button>
             </div>
         </form>
     );
