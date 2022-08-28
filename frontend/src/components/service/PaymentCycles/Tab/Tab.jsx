@@ -20,13 +20,16 @@ const Tab = props => {
     const [incluir, setIncluir] = useState('')
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
-    const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase(props.patchState, props.cycleSelected)
+    const { email, token } = props.user
+
+
+    const postToPaymentCycles = createOnDatabase(props.postState, token, email)
+    const patchToPaymentCycles = updateOnDatabase(props.patchState, token, email)
 
     function renderingInitialState(target) {
         props.setTabOnNow(target)
         tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
-        props.getList()
+        props.getList(email, token)
         props.showTab('Listar', 'Incluir',)
 
     }
@@ -95,6 +98,7 @@ const mapStateToProps = state => ({
     deleted: state.fetched.deleted,
     patch: state.fetched.patch,
     cycleSelected: state.paymentCycles.cycleSelected,
+    user: state.auth.user,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList }, dispatch)

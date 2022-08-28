@@ -10,29 +10,30 @@ import { deletedState, postState } from "../../../../globalState/fetched/actionF
 import { deleteCycle, toUpdateCycle } from './functionsList'
 
 const List = props => {
+    const { email, token } = props.user
 
     const actionDelete = deleteCycle(props.deletedState)
     const actionUpdate = toUpdateCycle(props.showTab, props.setTabOnNow, props.setCycleSelected)
     useEffect(() => {
-        props.getList()
+        props.getList(email, token)
     }, [])
 
     function renderRows() {
-        if (props.list.mensage) {
-            return <tr><td style={{ width: '100%' }}>Nao foi encontrado nem um Item, tente entrar em sua conta</td></tr>
-        }
-        return props.list.map(cycle => (
-            <tr key={cycle._id}>
-                <td>{cycle.name}</td>
-                <td>{cycle.month}</td>
-                <td>{cycle.year}</td>
-                <td>
-                    <Button name='Excluir' css='#a62c2b' target={cycle} onClickAction={actionDelete} />
-                    <Button name='Alterar' css='#00b7d8' target={cycle} onClickAction={actionUpdate} />
-                </td>
+        if (props.list.length) {
+            return props.list.map(cycle => (
+                <tr key={cycle._id}>
+                    <td>{cycle.name}</td>
+                    <td>{cycle.month}</td>
+                    <td>{cycle.year}</td>
+                    <td>
+                        <Button name='Excluir' css='#a62c2b' target={cycle} onClickAction={actionDelete} />
+                        <Button name='Alterar' css='#00b7d8' target={cycle} onClickAction={actionUpdate} />
+                    </td>
 
-            </tr>
-        ))
+                </tr>
+            ))
+        }
+        return <tr><td style={{ width: '100%' }}>Nao foi encontrado nem um Item, tente entrar em sua conta</td></tr>
     }
 
     return (
@@ -63,7 +64,10 @@ const List = props => {
     )
 }
 
-const mapStateToProps = state => ({ list: state.paymentCycles.list })
+const mapStateToProps = state => ({
+    list: state.paymentCycles.list,
+    user: state.auth.user,
+})
 
 const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, getList, setTabOnNow, setCycleSelected, postState, showTab, }, dispatch)
 

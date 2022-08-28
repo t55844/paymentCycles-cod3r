@@ -1,6 +1,5 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { checkFeatch, requisitionStructure } from "../../PaymentCycles/Tab/functionsTab";
 
 import '../../Form/Form.css'
 import '../Enter/Enter.css'
@@ -8,16 +7,15 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { loginState } from "../../../../globalState/fetched/actionFetched";
 import { loginAuth } from "../../../../globalState/auth/actionAuth";
+import { checkFeatch, requisitionStructure } from "../../../helpHandlers/featchHellper";
 
 
 const Login = props => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     function bodyContructorToUser(data) {
         return {
-            name: data.nome,
             email: data.email,
             password: data.senha,
-            confirm_password: data.confirmeSenha
         }
     }
     async function login(data) {

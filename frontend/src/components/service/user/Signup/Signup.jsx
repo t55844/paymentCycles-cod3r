@@ -1,11 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { checkFeatch, requisitionStructure } from "../../PaymentCycles/Tab/functionsTab";
 
 import '../../Form/Form.css'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { signupState } from "../../../../globalState/fetched/actionFetched";
+import { checkFeatch, requisitionStructure } from "../../../helpHandlers/featchHellper";
 
 const Signup = props => {
     const { register, handleSubmit, formState: { errors } } = useForm();

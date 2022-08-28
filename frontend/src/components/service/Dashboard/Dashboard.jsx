@@ -11,7 +11,8 @@ import ContentBox from "../ContentBox";
 
 const Dashboard = props => {
     const { credits, debts } = props.summary
-    useEffect(() => props.getSummary, [])
+    const { email, token } = props.user
+    useEffect(() => { props.getSummary(email, token) }, [])
     return (
         <div className="service-container">
             <ContentHeader title='Dahsboard' subtitle='2.0' />
@@ -39,7 +40,10 @@ const Dashboard = props => {
     )
 }
 
-const mapStateToProps = (state) => ({ summary: state.dashboard.summary })
+const mapStateToProps = (state) => ({
+    summary: state.dashboard.summary,
+    user: state.auth.user,
+})
 const mapDispatchToProps = dispatch => bindActionCreators({ getSummary }, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

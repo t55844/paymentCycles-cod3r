@@ -1,11 +1,14 @@
-import { emailStorage, header } from "../../components/helpHandlers/featchHellper"
-
-const URL_BASE = `http://localhost:3003/api/paymentCycle?email=${emailStorage}`
 
 
-export async function getList() {
-    console.log(emailStorage)
-    const request = await fetch(URL_BASE, { method: 'GET', headers: header })
+export async function getList(email, token) {
+
+    const request = await fetch(`http://localhost:3003/api/paymentCycle?email=${email}`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': token,
+        }
+    })
     const data = await request.json()
     return {
         type: 'PAYMENT_CYCLES_FECHED',

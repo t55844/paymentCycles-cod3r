@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { header } from '../../../helpHandlers/featchHellper';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
 export const toUpdateCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
@@ -21,8 +20,14 @@ function checkDeleted(res, deletedState) {
     }
 }
 
-export const deleteCycle = deletedState => (target) => {
-    fetch(`http://localhost:3003/api/paymentCycle/${target._id}`, { method: 'DELETE', headers: header })
+export const deleteCycle = (deletedState, token) => (target) => {
+    fetch(`http://localhost:3003/api/paymentCycle/${target._id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': token,
+        }
+    })
         .then(res => res.json())
         .then(res => checkDeleted(res, deletedState))
         .catch(error =>

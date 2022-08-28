@@ -1,10 +1,11 @@
-import { emailStorage, header } from "../../components/helpHandlers/featchHellper"
-
-const URL_SUMMARY = `http://localhost:3003/api/summary?email=${emailStorage}`
-
-
-export async function getSummary() {
-    const request = await fetch(URL_SUMMARY, { method: 'GET', headers: header })
+export async function getSummary(email, token) {
+    const request = await fetch(`http://localhost:3003/api/summary?email=${email}`, {
+        method: 'GET',
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': token,
+        }
+    })
     const data = await request.json()
 
     return {
