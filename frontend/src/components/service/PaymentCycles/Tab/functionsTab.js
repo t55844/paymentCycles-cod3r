@@ -1,4 +1,4 @@
-import { header } from '../../../helpHandlers/headerAuth';
+import { emailStorage, header } from '../../../helpHandlers/featchHellper';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
 export function requisitionStructure(method, body, failureMessage, url, id = ' ') {
@@ -17,12 +17,14 @@ function bodyPaymentCyclesContructor(data) {
     const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor, debitoEstado } = data
 
     const body = {
-        name: nome
+        email: emailStorage
+        , name: nome
         , month: mes
         , year: ano
         , credits: [{ name: creditoNome, value: creditoValor }]
         , debts: [{ name: debitoNome, value: debitoValor, status: debitoEstado }]
     }
+    console.log(body)
     return body
 }
 

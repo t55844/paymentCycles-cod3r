@@ -1,6 +1,6 @@
-import { header } from "../../components/helpHandlers/headerAuth"
+import { emailStorage, header } from "../../components/helpHandlers/featchHellper"
 
-const URL_SUMMARY = 'http://localhost:3003/api/summary'
+const URL_SUMMARY = `http://localhost:3003/api/summary?email=${emailStorage}`
 
 
 export async function getSummary() {

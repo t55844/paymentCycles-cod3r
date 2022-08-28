@@ -18,6 +18,9 @@ const List = props => {
     }, [])
 
     function renderRows() {
+        if (props.list.mensage) {
+            return <tr><td style={{ width: '100%' }}>Nao foi encontrado nem um Item, tente entrar em sua conta</td></tr>
+        }
         return props.list.map(cycle => (
             <tr key={cycle._id}>
                 <td>{cycle.name}</td>

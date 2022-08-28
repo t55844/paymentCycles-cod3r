@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { header } from '../../../helpHandlers/headerAuth';
+import { header } from '../../../helpHandlers/featchHellper';
 import { toastCheack } from '../../../helpHandlers/toastCheck';
 
 export const toUpdateCycle = (showTab, setTabOnNow, setCycleToExclude) => (cycle) => {
