@@ -18,6 +18,8 @@ import { validateToken } from './globalState/auth/actionAuth';
 function App(props) {
   const [actionsSidebar, setActionsSidebar] = useState('sidebar')
 
+
+
   return (
     <>
       <If test={props.login === 'failed'}>
