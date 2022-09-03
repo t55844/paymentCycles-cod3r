@@ -9,7 +9,7 @@ export function logout() {
 }
 
 export function validateToken(token) {
-    return fetch(`http://localhost:3003/oapi/validateToken`, {
+    return fetch(`https://paymentcycles2233.herokuapp.com/oapi/validateToken`, {
         method: 'POST',
         headers: {
             'Accept': '*/*',

@@ -20,7 +20,7 @@ const Login = props => {
     }
     async function login(data) {
         const body = bodyContructorToUser(data)
-        const resp = await requisitionStructure('POST', body, 'Nao foi possivel registar sua conta', 'http://localhost:3003/oapi/login')
+        const resp = await requisitionStructure('POST', body, 'Nao foi possivel registar sua conta', 'https://paymentcycles2233.herokuapp.com/oapi/login')
         const test = resp.name
         checkFeatch(resp, props.loginState, test, 'Voce acessou sua conta com sucesso', 'Erro nao foi possivel acessa sua conta')
         props.loginAuth(resp)
@@ -40,7 +40,9 @@ const Login = props => {
                     <input type='password' {...register("senha", { required: true })} />
                     {errors.exampleRequired && <span>A senha e necessaria</span>}
                 </div>
-                <button className="enter-button" type="submit" >entrar</button>
+                <button className="enter-button" type="submit" >Entrar</button>
+                <button className="enter-button" type="button"
+                    onClick={() => props.actionCadastreSe('Signup')} >Cadastre-se</button>
             </div>
         </form>
     );

@@ -12,6 +12,8 @@ import PaymentCycles from './components/service/PaymentCycles/PaymentCycles';
 import Enter from './components/service/user/Enter/Enter';
 import If from './components/helpHandlers/If';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { validateToken } from './globalState/auth/actionAuth';
 
 function App(props) {
   const [actionsSidebar, setActionsSidebar] = useState('sidebar')
@@ -50,10 +52,26 @@ function App(props) {
 
 const mapStateToProps = state => ({
   login: state.fetched.login,
+  user: state.auth.user
 })
+
+const mapDispatchToProps = dispatch => bindActionCreators({ validateToken }, dispatch)
 
 
 export default connect(
   mapStateToProps,
+  mapDispatchToProps
 )(App)
 
+/**
+ *       requisitionStructure(
+        'POST',
+        { token: userStorage.token },
+        'Voce não esta logado, tente entrar ou criar sua conta',
+        'http://localhost:3003/oapi//validateToken')
+        .then(resp => {
+          
+          const test = resp.valid
+          checkFeatch(resp, () => { }, test, 'Voce esta logado com sucesso', 'Voce não esta logado')
+        })
+ */

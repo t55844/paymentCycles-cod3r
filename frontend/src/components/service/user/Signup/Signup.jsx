@@ -19,7 +19,7 @@ const Signup = props => {
     }
     async function signup(data) {
         const body = bodyContructorToUser(data)
-        const resp = await requisitionStructure('POST', body, 'Nao foi possivel registar sua conta', 'http://localhost:3003/oapi/signup')
+        const resp = await requisitionStructure('POST', body, 'Nao foi possivel registar sua conta', 'https://paymentcycles2233.herokuapp.com/oapi/signup')
         const test = resp.ok === 'ok'
         checkFeatch(resp, props.signupState, test, 'Conta criada com sucesso', 'Erro nao foi possivel criar a conta')
     }
@@ -47,8 +47,11 @@ const Signup = props => {
                     {errors.exampleRequired && <span>A senha e necessaria</span>}
                 </div>
                 <button className="enter-button" type="submit" >
-                    registrar-se
+                    Registrar-se
                 </button>
+                <button className="enter-button" type="button"
+                    onClick={() => props.actionEntrar('Login')}
+                >Entrar</button>
             </div>
         </form>
     );

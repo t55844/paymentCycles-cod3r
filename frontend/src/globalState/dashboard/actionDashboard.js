@@ -1,5 +1,5 @@
 export async function getSummary(email, token) {
-    const request = await fetch(`http://localhost:3003/api/summary?email=${email}`, {
+    const request = await fetch(`https://paymentcycles2233.herokuapp.com/api/summary?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',

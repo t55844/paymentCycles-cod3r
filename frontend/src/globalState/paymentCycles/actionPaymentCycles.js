@@ -2,7 +2,7 @@
 
 export async function getList(email, token) {
 
-    const request = await fetch(`http://localhost:3003/api/paymentCycle?email=${email}`, {
+    const request = await fetch(`https://paymentcycles2233.herokuapp.com/api/paymentCycle?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-type': 'application/json',

@@ -39,3 +39,10 @@ export function checkFeatch(response, setState, test, successMenssage, failureMe
         setState('failed')
     }
 }
+
+export const validityToken = async () => {
+    const userStorage = JSON.parse(localStorage.getItem('_mymoney_user'))
+    console.log(userStorage.token)
+    const resp = await requisitionStructure('POST', { token: userStorage.token }, 'Voce não esta logado, tente entrar ou criar sua conta', 'http://localhost:3003/oapi//validateToken')
+    return resp
+}
