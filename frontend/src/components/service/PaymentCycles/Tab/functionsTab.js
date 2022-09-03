@@ -1,55 +1,20 @@
-import { toastCheack } from '../../../helpHandlers/toastCheck';
-
-function requisitionStructure(method, body, failureMessage, id = ' ') {
-    return fetch(`http://localhost:3003/api/paymentCycle/${id}`, {
-        method: method,
-        headers: {
-            'Accept': '*/*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(body)
-    })
-        .then(res => res.json())
-        .then(res => res)
-        .catch(error => toastCheack('failed', `${failureMessage}: ${error}`))
-}
+import { bodyPaymentCyclesContructor, checkFeatch, requisitionStructure } from '../../../helpHandlers/featchHellper';
 
 
-function bodyPaymentCyclesContructor(data) {
-    const { nome, mes, ano, creditoNome, creditoValor, debitoNome, debitoValor } = data
-    const body = {
-        name: nome
-        , month: mes
-        , year: ano
-        , credits: [{ name: creditoNome, value: creditoValor }]
-        , debts: [{ name: debitoNome, value: debitoValor }]
-    }
-    return body
-}
+export const createOnDatabase = (postState, token, email) => async (data) => {
+    const body = bodyPaymentCyclesContructor(data, email)
 
-function checkFeatch(response, setState, test, successMenssage, failureMenssage) {
-    if (test) {
-        toastCheack('success', `${successMenssage}`)
-        setState('success')
-    } else {
-        toastCheack('failed', `${failureMenssage}: ${response.mensage}`)
-        setState('failed')
-    }
-}
-
-export const createOnDatabase = (postState) => async (data) => {
-    const body = bodyPaymentCyclesContructor(data)
-
-    const result = await requisitionStructure('POST', body, 'Nao foi possivel cadastrar por que')
+    const result = await requisitionStructure('POST', body, 'Nao foi possivel cadastrar por que', `https://paymentcycles2233.herokuapp.com/api/paymentCycle`, token)
     const test = result.name
 
     checkFeatch(result, postState, test, 'Cadastrado com sucesso !', 'Nao foi possivel cadastrar por causa do')
 }
 
-export const updateOnDatabase = (patchState) => async (data) => {
-    const body = bodyPaymentCyclesContructor(data)
+export const updateOnDatabase = (patchState, token, email) => async (data) => {
+    const body = { ...data, email }
+
     const id = data._id
-    const result = await requisitionStructure('PATCH', body, 'Nao foi possivel atualizar por que', id)
+    const result = await requisitionStructure('PATCH', body, 'Nao foi possivel atualizar por que', `https://paymentcycles2233.herokuapp.com/api/paymentCycle/${id}`, token, id)
     const test = result.ok !== 0
 
     checkFeatch(result, patchState, test, 'O ciclo foi atualizado com sucesso', 'Nao foi possivel atualizar o ciclo')

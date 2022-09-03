@@ -44,3 +44,34 @@ export function patchState(state) {
     }
 }
 
+export function signupState(state) {
+    const expectedResponse = ['success', 'failed']
+    if (expectedResponse.includes(state)) {
+        return {
+            type: 'SIGNUP',
+            payload: state
+        }
+    } else {
+        const menssage = `erro no patchState: ${state}`
+        return {
+            type: 'ERRO_FETCHED_PATCH',
+            payload: menssage
+        }
+    }
+}
+export function loginState(state) {
+    const expectedResponse = ['success', 'failed']
+    if (expectedResponse.includes(state)) {
+        return {
+            type: 'LOGIN',
+            payload: state
+        }
+    } else {
+        const menssage = `erro no patchState: ${state}`
+        return {
+            type: 'ERRO_FETCHED_PATCH',
+            payload: menssage
+        }
+    }
+}
+

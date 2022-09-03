@@ -5,6 +5,7 @@
     width: 100%;
     height: 100%;
     background-image: linear-gradient(to bottom right, #56b6dd, #2e54a7);
+    padding: 2%;
 }
 
 .form-title {
@@ -19,6 +20,7 @@
     width: 100%;
 }
 
+.field-transactions-adicional,
 .field-transactions,
 .field-profile {
     width: 40%;
@@ -26,6 +28,7 @@
     padding-top: 2%;
 }
 
+.field-transactions-adicional,
 .field-transactions {
     display: flex;
     flex-direction: column;
@@ -38,7 +41,7 @@
 }
 
 .field-box input {
-    margin: 2% 0;
+    margin: 2% 1%;
     height: 20px;
 }
 
@@ -68,6 +71,23 @@
     transform: scale(1.2);
 }
 
+.cyclesCount {
+    font-size: x-small;
+    border: 3px solid #2e54a7;
+    width: 13%;
+    padding: 2px;
+    margin: 2px 80% 2px;
+
+}
+
+.navigate-button {
+    width: 45%;
+}
+
+.navigate {
+    width: 25%;
+}
+
 @media (max-width: 900px) {
     .form-title {
         font-size: medium;
@@ -79,12 +99,18 @@
     }
 
     .field-transactions,
+    .field-transactions-adicional,
     .field-profile {
         width: 100%;
     }
 
     .field-box input {
         margin: 1% 0;
+    }
+
+    .form-button {
+        height: 50%;
+        margin: 5%;
     }
 
 }

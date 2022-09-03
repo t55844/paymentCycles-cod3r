@@ -8,25 +8,28 @@ import TabContent from "../../../templates/tabs/TabContent/TabContent";
 import { showTab, setTabOnNow } from "../../../../globalState/tab/actionTab";
 import If from "../../../helpHandlers/If";
 import List from "../List/List";
-import Form from "../Form/Form"
+import Form from "../../Form/Form"
 import { createOnDatabase, tabHeaderSelected, updateOnDatabase } from "./functionsTab";
 import { deletedState, patchState, postState } from "../../../../globalState/fetched/actionFetched";
 import { getList } from "../../../../globalState/paymentCycles/actionPaymentCycles";
 
 
 const Tab = props => {
-
+    const { tabTarget, patch, post, deleted } = props
     const [lista, setLista] = useState('')
     const [incluir, setIncluir] = useState('')
     const [alterar, setAlterar] = useState('')
     const [excluir, setExcluir] = useState('')
-    const postToPaymentCycles = createOnDatabase(props.postState)
-    const patchToPaymentCycles = updateOnDatabase(props.patchState)
+    const { email, token } = props.user
+
+
+    const postToPaymentCycles = createOnDatabase(props.postState, token, email)
+    const patchToPaymentCycles = updateOnDatabase(props.patchState, token, email)
 
     function renderingInitialState(target) {
         props.setTabOnNow(target)
         tabHeaderSelected(target, setLista, setIncluir, setAlterar, setExcluir)
-        props.getList()
+        props.getList(email, token)
         props.showTab('Listar', 'Incluir',)
 
     }
@@ -36,9 +39,9 @@ const Tab = props => {
     }
 
     useEffect(() => {
-        const target = props.tabTarget
+        const target = tabTarget
         setTabTargetToView(target)
-    }, [props.tabTarget])
+    }, [tabTarget])
 
     useEffect(() => {
         if (props.patch === 'success') {
@@ -52,7 +55,7 @@ const Tab = props => {
             renderingInitialState('Listar')
             props.deletedState('failed')
         }
-    }, [props.patch, props.post, props.deleted])
+    }, [patch, post, deleted])
 
     useEffect(() => {
         renderingInitialState('Listar')
@@ -66,22 +69,22 @@ const Tab = props => {
                 <If test={props.tabsShowed['Excluir']}><TabHeader cssActive={excluir} title='Excluir' tabTarget={setTabTargetToView} /></If>
             </ul>
             <If test={props.tabsShowed['Listar']}>
-                <TabContent css={props.tabTarget === 'Listar' ? "" : 'none'}>
+                <TabContent css={tabTarget === 'Listar' ? "" : 'none'}>
                     <List />
                 </TabContent>
             </If>
             <If test={props.tabsShowed['Incluir']}>
-                <TabContent css={props.tabTarget === 'Incluir' ? "" : 'none'}>
+                <TabContent css={tabTarget === 'Incluir' ? "" : 'none'}>
                     <Form cycle={''} onSubmit={postToPaymentCycles} />
                 </TabContent>
             </If>
             <If test={props.tabsShowed['Alterar']}>
-                <TabContent css={props.tabTarget === 'Alterar' ? "" : 'none'}>
-                    <Form cycle={props.cycleToExclude} onSubmit={patchToPaymentCycles} />
+                <TabContent css={tabTarget === 'Alterar' ? "" : 'none'}>
+                    <Form cycle={props.cycleSelected} onSubmit={patchToPaymentCycles} />
                 </TabContent>
             </If>
             <If test={props.tabsShowed['Excluir']}>
-                <TabContent css={props.tabTarget === 'Excluir' ? "" : 'none'}>
+                <TabContent css={tabTarget === 'Excluir' ? "" : 'none'}>
                 </TabContent>
             </If>
         </div>
@@ -94,7 +97,8 @@ const mapStateToProps = state => ({
     post: state.fetched.post,
     deleted: state.fetched.deleted,
     patch: state.fetched.patch,
-    cycleToExclude: state.paymentCycles.cycleToExclude
+    cycleSelected: state.paymentCycles.cycleSelected,
+    user: state.auth.user,
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ deletedState, showTab, setTabOnNow, postState, patchState, getList }, dispatch)

@@ -3,4 +3,12 @@
     background-color: white;
     width: 80%;
     height: 100%;
+    overflow-x: scroll;
+    background-image: linear-gradient(to bottom right, #56b6dd, #2e54a7);
+}
+
+@media (max-width: 900px) {
+    .tabcontent {
+        width: 95vw;
+    }
 }

@@ -17,3 +17,10 @@
 .active {
     opacity: 1;
 }
+
+@media (max-width: 900px) {
+    .tab-container {
+
+        margin-left: 0;
+    }
+}

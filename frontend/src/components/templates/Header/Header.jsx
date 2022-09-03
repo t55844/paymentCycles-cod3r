@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import If from "../../helpHandlers/If";
+import UserBox from "../../service/user/UserBox/UserBox";
 
 import './Header.css'
 
@@ -48,7 +50,10 @@ export default props => {
                 style={{ display: `${hideElement}` }}
                 onClick={() => hideButton()}>{toggle}
             </button>
+            <If test={props.login === 'failed'}>
 
+            </If>
+            <UserBox />
         </div >
     )
 }

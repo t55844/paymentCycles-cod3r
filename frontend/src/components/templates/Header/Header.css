@@ -1,13 +1,13 @@
 .header-container {
-    height: 8vh;
     display: flex;
     align-items: center;
     justify-content: start;
     background-color: #6495ED;
+    height: 8vh;
 }
 
 .main-header {
-    height: 8vh;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -16,7 +16,7 @@
 }
 
 .main-header--hide {
-    height: 8vh;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -53,6 +53,13 @@
 }
 
 @media (max-width: 900px) {
+    .header-container {
+        height: 12vh;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        background-color: #6495ED;
+    }
 
     .main-header {
         width: 40.8%;
