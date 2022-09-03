@@ -12,7 +12,7 @@ import { deleteCycle, toUpdateCycle } from './functionsList'
 const List = props => {
     const { email, token } = props.user
 
-    const actionDelete = deleteCycle(props.deletedState)
+    const actionDelete = deleteCycle(props.deletedState, token)
     const actionUpdate = toUpdateCycle(props.showTab, props.setTabOnNow, props.setCycleSelected)
     useEffect(() => {
         props.getList(email, token)

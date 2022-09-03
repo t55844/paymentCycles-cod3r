@@ -21,6 +21,7 @@ function checkDeleted(res, deletedState) {
 }
 
 export const deleteCycle = (deletedState, token) => (target) => {
+    console.log(token)
     fetch(`https://paymentcycles2233.herokuapp.com/api/paymentCycle/${target._id}`, {
         method: 'DELETE',
         headers: {
