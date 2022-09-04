@@ -51,6 +51,7 @@
 
     .table tbody tr {
         font-size: medium;
+        height: 35px;
     }
 
     .table thead {
